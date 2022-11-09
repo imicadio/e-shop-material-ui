@@ -25,6 +25,7 @@
     "@zalter/identity-js": "1.2.1",
     "chart.js": "3.9.1",
     "date-fns": "2.29.3",
+    "firebase": "^9.13.0",
     "formik": "2.2.9",
     "next": "12.3.0",
     "nprogress": "0.2.0",
