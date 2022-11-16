@@ -20,30 +20,48 @@ const Page = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
+      password: "",
       submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(8, "Your password is too short.")
+        .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
     }),
     onSubmit: async (values, helpers) => {
-      if (!ENABLE_AUTH) {
-        helpers.setFieldError("submit", "Zalter authentication not enabled");
-        helpers.setSubmitting(false);
-        return;
-      }
+      // if (!ENABLE_AUTH) {
+      //   helpers.setFieldError("submit", "Zalter authentication not enabled");
+      //   helpers.setSubmitting(false);
+      //   return;
+      // }
 
       try {
         // When in development, this will be 'http://localhost:3000/sign-in/confirm'
         // Remember to configure it in your project settings
-        const redirectUri = window.location.href + "/confirm";
+        // const redirectUri = window.location.href + "/confirm";
 
         // This can be call inside AuthProvider component, but we do it here for simplicity
-        await auth.signInWithLink("start", {
-          email: values.email,
-          redirectUri,
-        });
+        // await auth.signInWithLink("start", {
+        //   email: values.email,
+        //   password: values.password,
+        //   redirectUri,
+        // });
+
+        console.log(values);
+
+        const { email, password } = values;
+
+        const user = {};
+
+        // Update Auth Context state
+        authContext.signIn(user, email, password);
+
         helpers.setSubmitting(false);
         setEmailSent(true);
+        // Redirect to home page
+        Router.push("/").catch(console.error);
       } catch (err) {
         console.error(err);
         helpers.setFieldError("submit", err.message || "Something went wrong");
@@ -55,19 +73,19 @@ const Page = () => {
   const formikRegister = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      passwordRegister: "",
       confirmPassword: "",
     },
 
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-      password: Yup.string()
+      passwordRegister: Yup.string()
         .required("Password is required")
         .min(8, "Your password is too short.")
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
       confirmPassword: Yup.string()
         .required("Please confirm your password")
-        .oneOf([Yup.ref("password"), null], "Passwords must match"),
+        .oneOf([Yup.ref("passwordRegister"), null], "Passwords must match"),
     }),
 
     onSubmit: async (values, helpers) => {
@@ -96,13 +114,13 @@ const Page = () => {
         }
       };
 
-      const { email, password } = values;
+      const { email, passwordRegister } = values;
 
-      createUserWithEmailAndPassword(firebaseAuth, email, password)
+      createUserWithEmailAndPassword(firebaseAuth, email, passwordRegister)
         .then((userCredential) => {
           const user = userCredential.user;
 
-          createUserRole({ id: user.uid, email, password, role: "user" });
+          createUserRole({ id: user.uid, email, passwordRegister, role: "user" });
 
           toast.success("Succes Register...");
           navigation("/");
@@ -256,6 +274,21 @@ const Page = () => {
                           value={formik.values.email}
                           variant="outlined"
                         />
+
+                        <TextField
+                          error={Boolean(formik.touched.password && formik.errors.password)}
+                          fullWidth
+                          helperText={formik.touched.password && formik.errors.password}
+                          label="Password email"
+                          name="password"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          type="password"
+                          value={formik.values.password}
+                          variant="outlined"
+                          sx={{ mt: 3 }}
+                        />
+
                         <FormHelperText sx={{ mt: 1 }}>
                           Enter a valid email since this is a fully integrated authentication
                           system. Optionally you can skip.
@@ -271,6 +304,7 @@ const Page = () => {
                           sx={{ mt: 3 }}
                           onClick={() => formik.handleSubmit()}
                           variant="contained"
+                          disabled={!(formik.isValid && formik.dirty)}
                         >
                           Continue
                         </Button>
@@ -306,18 +340,20 @@ const Page = () => {
                         />
                         <TextField
                           error={Boolean(
-                            formikRegister.touched.password && formikRegister.errors.password
+                            formikRegister.touched.passwordRegister &&
+                              formikRegister.errors.passwordRegister
                           )}
                           fullWidth
                           helperText={
-                            formikRegister.touched.password && formikRegister.errors.password
+                            formikRegister.touched.passwordRegister &&
+                            formikRegister.errors.passwordRegister
                           }
                           label="Password"
-                          name="password"
+                          name="passwordRegister"
                           onBlur={formikRegister.handleBlur}
                           onChange={formikRegister.handleChange}
                           type="password"
-                          value={formikRegister.values.password}
+                          value={formikRegister.values.passwordRegister}
                           variant="outlined"
                           sx={{ my: 3 }}
                         />

@@ -36,10 +36,10 @@ export const AccountPopover = (props) => {
 
     try {
       // This can be call inside AuthProvider component, but we do it here for simplicity
-      await auth.signOut();
+      // await auth.signOut();
 
       // Update Auth Context state
-      authContext.signOut();
+      authContext.logout();
 
       // Redirect to sign-in page
       Router

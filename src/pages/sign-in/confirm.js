@@ -29,11 +29,11 @@ const Page = () => {
     confirmed.current = true;
 
     // Check if authentication with Zalter is enabled
-    if (!ENABLE_AUTH) {
-      setError('Zalter authentication not enabled');
-      setIsLoading(false);
-      return;
-    }
+    // if (!ENABLE_AUTH) {
+    //   setError('Zalter authentication not enabled');
+    //   setIsLoading(false);
+    //   return;
+    // }
 
     // Extract the token from the page URL
     const { token } = parseUrl();
@@ -48,7 +48,9 @@ const Page = () => {
 
     try {
       // This can be call inside AuthProvider component, but we do it here for simplicity
-      await auth.signInWithLink('finalize', { token });
+      // await auth.signInWithLink('finalize', { token });
+
+      console.log(token)
 
       // Get the user from your database
       const user = {};
