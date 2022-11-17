@@ -166,17 +166,17 @@ export const AuthProvider = (props) => {
         
       })
       .catch((error) => {
-        toast.error(error.message);
+        console.error(error.message);
       });    
   };
 
   const logout = () => {
     signOut(firebaseAuth)
       .then(() => {
-        toast.success("Signout successfully.");
+        console.success("Signout successfully.");
       })
       .catch((error) => {
-        toast.error(error.message);
+        console.error(error.message);
       });
 
     dispatch({

@@ -441,3 +441,11 @@ const Page = () => {
 };
 
 export default Page;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      protected: false,
+    },
+  };
+}

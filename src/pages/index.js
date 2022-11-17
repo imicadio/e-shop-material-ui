@@ -9,6 +9,7 @@ import { TotalCustomers } from '../components/dashboard/total-customers';
 import { TotalProfit } from '../components/dashboard/total-profit';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { AuthGuard } from '../components/auth-guard';
 
 const Page = () => (
   <>
@@ -114,3 +115,12 @@ Page.getLayout = (page) => (
 );
 
 export default Page;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      protected: true,
+      userTypes: ["user"],
+    },
+  };
+}
