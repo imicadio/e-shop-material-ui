@@ -10,6 +10,7 @@ import { createEmotionCache } from "../utils/create-emotion-cache";
 import { registerChartJs } from "../utils/register-chart-js";
 import { theme } from "../theme";
 import { AuthGuard } from "../components/auth-guard";
+import { Loader } from "../components/loader/loader";
 
 registerChartJs();
 
@@ -22,15 +23,15 @@ const App = (props) => {
 
   const renderComponent = (auth) => {
     console.log(auth);
-    if (auth.isLoading) return <h1>Loading.... </h1>;
+    if (auth.isLoading) return <Loader />;
 
     if (pageProps.protected && pageProps.userTypes) {
-      if (pageProps.protected && auth.user) {
+      if (pageProps.protected && pageProps.userTypes.indexOf(auth.user.role) !== -1) {
         return getLayout(<Component {...pageProps} />);
       } else if (!auth.isAuthenticated) {
         return <AuthGuard pageProps={pageProps} />;
       } else {
-        return <h1>Loading.... </h1>;
+        return <AuthGuard pageProps={pageProps} />;
       }
     } else {
       return getLayout(<Component {...pageProps} />);
