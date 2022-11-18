@@ -11,6 +11,17 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: 'transparent',
+            color: "#b7181d"
+          },
+        },
+      },
+    },
+
     MuiButton: {
       defaultProps: {
         disableElevation: true,
@@ -19,8 +30,8 @@ export const theme = createTheme({
         root: {
           textTransform: "none",
           borderRadius: 0,
-          '&:hover': {
-            backgroundColor: '#8a1216',
+          "&:hover": {
+            backgroundColor: "#8a1216",
           },
         },
         sizeSmall: {
@@ -107,7 +118,7 @@ export const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: 0
+          borderRadius: 0,
         },
         notchedOutline: {
           borderColor: "#E6E8F0",
