@@ -15,8 +15,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           "&:hover": {
-            backgroundColor: 'transparent',
-            color: "#b7181d"
+            backgroundColor: "transparent",
+            color: "#b7181d",
           },
         },
       },
@@ -32,6 +32,7 @@ export const theme = createTheme({
           borderRadius: 0,
           "&:hover": {
             backgroundColor: "#8a1216",
+            color: "white",
           },
         },
         sizeSmall: {
@@ -113,6 +114,26 @@ export const theme = createTheme({
           height: "100%",
           width: "100%",
         },
+        a: {
+          color: "#b7181d",
+          textDecoration: "none",
+          "&:hover": {
+            color: "#8a1216",
+          },
+        },
+        ".navigation-item": {
+          a: {
+            color: "#333",
+            "&:hover": {
+              color: "#8a1216",
+            },
+          },
+          "&.active": {
+            a: {
+              color: "#b7181d",
+            },
+          },
+        },
       },
     },
     MuiOutlinedInput: {
@@ -180,6 +201,7 @@ export const theme = createTheme({
       dark: "#3832A0",
       contrastText: "#FFFFFF",
       lightGray: "#f5f5f5",
+      gray: "#d8d8d8",
     },
     secondary: {
       main: "#8a1216",
