@@ -31,25 +31,8 @@ const Page = () => {
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
     }),
     onSubmit: async (values, helpers) => {
-      // if (!ENABLE_AUTH) {
-      //   helpers.setFieldError("submit", "Zalter authentication not enabled");
-      //   helpers.setSubmitting(false);
-      //   return;
-      // }
 
       try {
-        // When in development, this will be 'http://localhost:3000/sign-in/confirm'
-        // Remember to configure it in your project settings
-        // const redirectUri = window.location.href + "/confirm";
-
-        // This can be call inside AuthProvider component, but we do it here for simplicity
-        // await auth.signInWithLink("start", {
-        //   email: values.email,
-        //   password: values.password,
-        //   redirectUri,
-        // });
-
-        console.log(values);
 
         const { email, password } = values;
 
@@ -137,20 +120,6 @@ const Page = () => {
 
   const handleRetry = () => {
     setEmailSent(false);
-  };
-
-  const handleSkip = () => {
-    // Since skip is requested, we set a fake user as authenticated
-    const user = {};
-
-    // Update Auth Context state
-    authContext.signIn(user);
-
-    // Persist the skip for AuthProvider initialize call
-    globalThis.sessionStorage.setItem("skip-auth", "true");
-
-    // Redirect to home page
-    Router.push("/").catch(console.error);
   };
 
   return (
@@ -290,8 +259,7 @@ const Page = () => {
                         />
 
                         <FormHelperText sx={{ mt: 1 }}>
-                          Enter a valid email since this is a fully integrated authentication
-                          system. Optionally you can skip.
+                          Enter a valid email.
                         </FormHelperText>
                         {formik.errors.submit && (
                           <Typography color="error" sx={{ mt: 2 }} variant="body2">
@@ -306,10 +274,7 @@ const Page = () => {
                           variant="contained"
                           disabled={!(formik.isValid && formik.dirty)}
                         >
-                          Continue
-                        </Button>
-                        <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
-                          Skip authentication
+                          Login
                         </Button>
                       </div>
                     )}
