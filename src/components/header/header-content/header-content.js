@@ -15,14 +15,24 @@ import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ROUTE } from "../../../shared/routing";
 
-const HeaderContent = () => {
+const HeaderContent = ({ open, setActiveMenu }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
 
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+      return;
+    }
+    //changes the function state according to the value of open
+    setActiveMenu(open);
+  };
+
   const renderMenu = !lgUp ? (
-    <IconButton>
+    <IconButton //function that is called when the drawer should close
+      onClick={toggleDrawer(true)}
+    >
       <MenuIcon fontSize="large" />
     </IconButton>
   ) : (

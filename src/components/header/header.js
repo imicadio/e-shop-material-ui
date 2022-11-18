@@ -1,14 +1,14 @@
-import React from 'react'
-import HeaderContent from './header-content/header-content';
-import HeaderTopBar from './header-topbar/header-topbar';
+import React from "react";
+import HeaderContent from "./header-content/header-content";
+import HeaderTopBar from "./header-topbar/header-topbar";
 
-const Header = () => {
+const Header = ({ open, setActiveMenu }) => {
   return (
     <React.Fragment>
-        <HeaderTopBar />
-        <HeaderContent />
+      <HeaderTopBar />
+      <HeaderContent open={open} setActiveMenu={setActiveMenu} />
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Header;

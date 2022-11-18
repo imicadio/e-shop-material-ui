@@ -1,24 +1,18 @@
 import Head from "next/head";
 import NextLink from "next/link";
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  FormControl,
-  OutlinedInput,
-  Button,
-  Icon,
-  useMediaQuery,
-  IconButton,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Header from "../components/header/header";
 import Navigation from "../components/navigation/navigation";
+import { useCallback, useState } from "react";
 
 const Page = () => {
-  
+  const [open, setOpen] = useState(false);
+
+  const setActiveMenu = useCallback(val => {
+    setOpen(val)
+  }, [setOpen])
 
   return (
     <>
@@ -31,9 +25,8 @@ const Page = () => {
           flexGrow: 1,
         }}
       >
-        <Header />
-        <Navigation />
-        
+        <Header open={open} setActiveMenu={setActiveMenu} />
+        <Navigation open={open} setActiveMenu={setActiveMenu} />
       </Box>
     </>
   );

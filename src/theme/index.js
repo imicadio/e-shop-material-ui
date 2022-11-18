@@ -121,6 +121,12 @@ export const theme = createTheme({
             color: "#8a1216",
           },
         },
+        "navigation-menu": {
+          top: 0,
+          left: 0,
+          right: '30px',
+          bottom: 0
+        },
         ".navigation-item": {
           a: {
             color: "#333",
@@ -135,6 +141,16 @@ export const theme = createTheme({
           },
         },
       },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        root: {
+          width: '85%'
+        },
+        paper: {
+          width: '85%'
+        }
+      }
     },
     MuiOutlinedInput: {
       styleOverrides: {
