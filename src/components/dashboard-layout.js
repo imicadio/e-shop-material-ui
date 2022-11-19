@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AuthGuard } from './auth-guard';
 import { DashboardNavbar } from './dashboard-navbar';
 import { DashboardSidebar } from './dashboard-sidebar';
 
