@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import NextLink from "next/link";
 import {
   Box,
@@ -10,16 +10,21 @@ import {
   Button,
   useMediaQuery,
   IconButton,
+  Badge,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ROUTE } from "../../../shared/routing";
+import { AuthContext } from "../../../contexts/auth-context";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
+
+  const auth = useContext(AuthContext);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -29,37 +34,63 @@ const HeaderContent = ({ open, setActiveMenu }) => {
     setActiveMenu(open);
   };
 
-  const renderMenu = !lgUp ? (
-    <IconButton //function that is called when the drawer should close
-      onClick={toggleDrawer(true)}
-    >
-      <MenuIcon fontSize="large" />
-    </IconButton>
-  ) : (
-    <>
-      <Box>
-        <Typography variant="body1" component="p">
-          You don't have an account?
-        </Typography>
-        <Typography variant="body1" align="right" component="p" sx={{ fontWeight: "bold" }}>
-          Join to us!{" "}
-          <NextLink href={ROUTE.LOGIN} passHref>
-            Register
-          </NextLink>
-        </Typography>
-      </Box>
-      <Button
-        href={ROUTE.LOGIN}
-        variant="contained"
-        sx={{
-          display: "flex",
-          marginLeft: "20px",
-        }}
-      >
-        Login
-      </Button>
-    </>
-  );
+  const renderMenu = () => {
+    if (!lgUp) {
+      return (
+        <IconButton //function that is called when the drawer should close
+          onClick={toggleDrawer(true)}
+        >
+          <MenuIcon fontSize="large" />
+        </IconButton>
+      );
+    } else if (auth.isAuthenticated)
+      return (
+        <>
+          <IconButton aria-label="shopping-cart">
+            <Badge badgeContent={4} color="primary">
+              <ShoppingBasketIcon fontSize="large" />
+            </Badge>
+          </IconButton>
+          <Button
+            href={ROUTE.LOGIN}
+            variant="contained"
+            sx={{
+              display: "flex",
+              marginLeft: "20px",
+            }}
+          >
+            Logout
+          </Button>
+        </>
+      );
+    else {
+      return (
+        <>
+          <Box>
+            <Typography variant="body1" component="p">
+              You don't have an account?
+            </Typography>
+            <Typography variant="body1" align="right" component="p" sx={{ fontWeight: "bold" }}>
+              Join to us!{" "}
+              <NextLink href={ROUTE.LOGIN} passHref>
+                Register
+              </NextLink>
+            </Typography>
+          </Box>
+          <Button
+            href={ROUTE.LOGIN}
+            variant="contained"
+            sx={{
+              display: "flex",
+              marginLeft: "20px",
+            }}
+          >
+            Login
+          </Button>
+        </>
+      );
+    }
+  };
 
   return (
     <Container maxWidth="xl">
@@ -131,7 +162,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               justifyContent: "flex-end",
             }}
           >
-            {renderMenu}
+            {renderMenu()}
           </Box>
         </Grid>
       </Grid>

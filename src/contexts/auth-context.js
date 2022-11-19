@@ -105,7 +105,7 @@ export const AuthProvider = (props) => {
           fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
             .then((response) => response.json())
             .then((data) => {
-              console.log(user.uid);
+              // console.log(user.uid);
               const isUser = Object.entries(data).filter(([key, value]) => value.id === user.uid);
               if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
 
@@ -121,7 +121,7 @@ export const AuthProvider = (props) => {
             })
             .catch((error) => console.error(error));
         } else {
-          console.log('User missing please login')
+          // console.log('User missing please login')
           dispatch({
             type: HANDLERS.INITIALIZE,
           });
@@ -147,7 +147,7 @@ export const AuthProvider = (props) => {
         fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
             .then((response) => response.json())
             .then((data) => {
-              console.log(user.uid);
+              // console.log(user.uid);
               const isUser = Object.entries(data).filter(([key, value]) => value.email === email);
               if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
 

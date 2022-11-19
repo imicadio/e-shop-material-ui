@@ -10,7 +10,7 @@ export const AuthGuard = (props) => {
   const ignore = useRef(false);
   const [checked, setChecked] = useState(false);
 
-  console.log("pageProps: ", pageProps)
+  // console.log("pageProps: ", pageProps)
 
   // Only do authentication check on component mount.
   // This flow allows you to manually redirect the user after sign-out, otherwise this will be

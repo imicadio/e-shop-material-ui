@@ -22,7 +22,7 @@ const App = (props) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const renderComponent = (auth) => {
-    console.log(auth);
+    // console.log(auth);
     if (auth.isLoading) return <Loader />;
 
     if (pageProps.protected && pageProps.userTypes) {

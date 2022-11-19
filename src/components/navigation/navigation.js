@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import NextLink from "next/link";
 import {
+  Badge,
   Box,
   Button,
   Container,
@@ -20,8 +21,9 @@ import { useRouter } from "next/router";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Divider from "@mui/material/Divider";
-import ImageIcon from "@mui/icons-material/Image";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
+import { AuthContext } from "../../contexts/auth-context";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 const listNavigation = [
   {
@@ -37,6 +39,7 @@ const listNavigation = [
 ];
 
 const Navigation = ({ open, setActiveMenu }) => {
+  const auth = useContext(AuthContext);
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -115,7 +118,14 @@ const Navigation = ({ open, setActiveMenu }) => {
 
           <Divider sx={{ mb: 2 }} />
 
-          <p>search</p>
+          <ListItemButton>
+            <ListItemIcon>
+              <Badge badgeContent={4} color="primary">
+                <ShoppingBasketIcon fontSize="large" />
+              </Badge>
+            </ListItemIcon>
+            <ListItemText primary="Shopping cart" />
+          </ListItemButton>
 
           <Divider sx={{ my: 2 }} />
 
@@ -138,12 +148,20 @@ const Navigation = ({ open, setActiveMenu }) => {
               transform: "translate(-50%, 0)",
             }}
           >
-            <Button variant="contained" sx={{ m: 1, width: 0.5 }}>
-              Register
-            </Button>
-            <Button variant="outlined" sx={{ m: 1, width: 0.5 }}>
-              Login
-            </Button>
+            {auth.isAuthenticated ? (
+              <Button variant="contained" sx={{ m: 1 }}>
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button variant="contained" sx={{ m: 1, width: 0.5 }}>
+                  Register
+                </Button>
+                <Button variant="outlined" sx={{ m: 1, width: 0.5 }}>
+                  Login
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Drawer>
