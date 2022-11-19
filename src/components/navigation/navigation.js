@@ -17,6 +17,7 @@ import {
 import { ROUTE } from "../../shared/routing";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
+import Router from 'next/router';
 
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -52,6 +53,23 @@ const Navigation = ({ open, setActiveMenu }) => {
     }
     //changes the function state according to the value of open
     setActiveMenu(open);
+  };
+
+  console.log(auth)
+
+  const logoutUser = () => {
+    try {
+      // This can be call inside AuthProvider component, but we do it here for simplicity
+      // await auth.signOut();
+
+      // Update Auth Context state
+      auth.logout();
+
+      // Redirect to sign-in page
+      Router.push(ROUTE.HOME).catch(console.error);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const renderNavigation = lgUp ? (
@@ -151,7 +169,7 @@ const Navigation = ({ open, setActiveMenu }) => {
             }}
           >
             {auth.isAuthenticated ? (
-              <Button variant="contained" sx={{ m: 1 }}>
+              <Button variant="contained" sx={{ m: 1 }} onClick={logoutUser}>
                 Logout
               </Button>
             ) : (

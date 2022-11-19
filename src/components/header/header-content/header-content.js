@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
+import Router from 'next/router';
 import NextLink from "next/link";
 import {
   Box,
@@ -18,6 +19,7 @@ import { ROUTE } from "../../../shared/routing";
 import { AuthContext } from "../../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
+
 const HeaderContent = ({ open, setActiveMenu }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -32,6 +34,21 @@ const HeaderContent = ({ open, setActiveMenu }) => {
     }
     //changes the function state according to the value of open
     setActiveMenu(open);
+  };
+
+  const logoutUser = () => {
+    try {
+      // This can be call inside AuthProvider component, but we do it here for simplicity
+      // await auth.signOut();
+
+      // Update Auth Context state
+      auth.logout();
+
+      // Redirect to homepage
+      Router.push(ROUTE.HOME).catch(console.error);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const renderMenu = () => {
@@ -52,12 +69,12 @@ const HeaderContent = ({ open, setActiveMenu }) => {
             </Badge>
           </IconButton>
           <Button
-            href={ROUTE.LOGIN}
             variant="contained"
             sx={{
               display: "flex",
               marginLeft: "20px",
             }}
+            onClick={logoutUser}
           >
             Logout
           </Button>

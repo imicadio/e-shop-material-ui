@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Header from "../components/header/header";
 import Navigation from "../components/navigation/navigation";
 import { useCallback, useState } from "react";
+import Footer from "../components/footer/footer";
 
 const Page = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const Page = () => {
       >
         <Header open={open} setActiveMenu={setActiveMenu} />
         <Navigation open={open} setActiveMenu={setActiveMenu} />
+        <Footer />
       </Box>
     </>
   );
