@@ -116,18 +116,20 @@ const Navigation = ({ open, setActiveMenu }) => {
             <CloseIcon />
           </IconButton>
 
-          <Divider sx={{ mb: 2 }} />
-
-          <ListItemButton>
-            <ListItemIcon>
-              <Badge badgeContent={4} color="primary">
-                <ShoppingBasketIcon fontSize="large" />
-              </Badge>
-            </ListItemIcon>
-            <ListItemText primary="Shopping cart" />
-          </ListItemButton>
-
-          <Divider sx={{ my: 2 }} />
+          {auth.isAuthenticated ? (
+            <>
+              <Divider sx={{ mb: 2 }} />
+              <ListItemButton>
+                <ListItemIcon>
+                  <Badge badgeContent={4} color="primary">
+                    <ShoppingBasketIcon fontSize="large" />
+                  </Badge>
+                </ListItemIcon>
+                <ListItemText primary="Shopping cart" />
+              </ListItemButton>
+              <Divider sx={{ my: 2 }} />{" "}
+            </>
+          ) : null}
 
           <Box sx={{ mb: 2 }}>
             {listNavigation.map((item) => (
