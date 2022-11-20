@@ -13,7 +13,12 @@ export const SidebarLayout = (props) => {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={5}>
-        <Grid item>
+        <Grid item sx={{
+          position: {
+            xs: 'absolute',
+            lg: 'relative'
+          }
+        }}>
           {sidebar}
           {/* <Sidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} /> */}
         </Grid>

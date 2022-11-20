@@ -21,8 +21,6 @@ const Page = () => {
   const filteredProducts = useSelector(selectFilteredProducts);
   const search = useSelector(selectSearch);
 
-  console.log(filteredProducts)
-
   const setListView = (value) => setViewList(value);
   const hadleSearch = (event) => {
     setCurrentPage(1);
@@ -53,12 +51,17 @@ const Page = () => {
         hadleSearch={hadleSearch}
         handleItemsPerPage={handleSetItemsPerPage}
         handleCurrentPage={handleCurrentPage}
-        itemsPerPage={itemsPerPage}        
-        currentPage={currentPage}        
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
         totalPages={totalPages}
         search={search}
       />
-      <ProductListing />
+      <ProductListing
+        products={filteredProducts}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        viewList={viewList}
+      />
     </>
   );
 };

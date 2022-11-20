@@ -17,6 +17,7 @@ import ViewDayIcon from "@mui/icons-material/ViewDay";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { inputBetweenNumber } from "../../hooks/numbers";
 
 const ProductListingHeader = ({
   setListView,
@@ -30,7 +31,7 @@ const ProductListingHeader = ({
 }) => {
   return (
     <Paper
-      elevation="12"
+      elevation={12}
       square
       sx={{
         p: 3,
@@ -127,10 +128,12 @@ const ProductListingHeader = ({
           </IconButton>
           <TextField
             id="standard-basic"
-            className="is-flex is-align-items-center filter-input__search"
             variant="standard"
             value={currentPage}
             onChange={(e) => handleCurrentPage(inputBetweenNumber(e.target.value, totalPages))}
+            sx={{
+              input: { textAlign: "center" },
+            }}
           />
           <IconButton
             aria-label="next-page"

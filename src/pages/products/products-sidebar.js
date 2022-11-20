@@ -1,9 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import { ChartBar as ChartBarIcon } from "../../icons/chart-bar";
 import { NavItem } from "../../components/nav-item";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProducts } from "../../redux/slice/listProductSlice";
+import {
+  FILTER_BY_CATEGORIES,
+  FILTER_BY_SEARCH,
+  selectBrands,
+  selectCategories,
+  selectMaxPrice,
+  selectMinPrice,
+  selectSearch,
+} from "../../redux/slice/filterSlice";
 
 const items = [
   {
@@ -13,12 +24,69 @@ const items = [
   },
 ];
 
+const selectedFilterObject = {
+  brand: [],
+  category: [],
+};
+
 const ProductsSidebar = () => {
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
+
+  const dispatch = useDispatch();
+
+  const [showResetBtn, setShowResetBtn] = useState(false);
+  const [price, setPrice] = useState([0, 10]);
+  const [selectedFilter, setSelectedFilter] = useState(selectedFilterObject);
+
+  const products = useSelector(selectProducts);
+  const sliderMin = useSelector(selectMinPrice);
+  const sliderMax = useSelector(selectMaxPrice);
+  const search = useSelector(selectSearch);
+  const brands = useSelector(selectBrands);
+  const categories = useSelector(selectCategories);
+
+  const handleSelect = (name, value) => {
+    setSelectedFilter({
+      ...selectedFilter,
+      [name]: value,
+    });
+  };
+
+  const handleChange = (event, newValue) => {
+    setPrice(newValue);
+  };
+
+  const handleClear = () => {
+    setSelectedFilter({ ...selectedFilterObject });
+    setPrice([sliderMin, sliderMax]);
+    setShowResetBtn(false);
+  };
+
+  const handleSearch = (event) => {
+    dispatch(FILTER_BY_SEARCH({ search: event.target.value }));
+  };
+
+  const handleClearSearch = () => {
+    dispatch(FILTER_BY_SEARCH({ search: "" }));
+  };
+
+  useEffect(() => {
+    if (!isNaN(sliderMin) && sliderMin && !isNaN(sliderMax) && sliderMax)
+      setPrice([sliderMin, sliderMax]);
+  }, [sliderMax, sliderMin]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_CATEGORIES({ products, filters: selectedFilter, price }));
+    const hasFilter = Object.values(selectedFilter).some((x) => x.length > 0);
+
+    if (hasFilter) setShowResetBtn(true);
+    else if (price[0] !== sliderMin || price[1] !== sliderMax) setShowResetBtn(true);
+    else setShowResetBtn(false);
+  }, [selectedFilter, price, search]);
 
   //   useEffect(
   //     () => {
@@ -43,10 +111,14 @@ const ProductsSidebar = () => {
           height: "100%",
         }}
       >
-        <Typography variant="h5" component="h5" sx={{
+        <Typography
+          variant="h5"
+          component="h5"
+          sx={{
             backgroundColor: "primary.lightGray",
-            p: 2
-        }}>
+            p: 2,
+          }}
+        >
           Filter
         </Typography>
         <Divider
@@ -87,8 +159,8 @@ const ProductsSidebar = () => {
   return (
     <Drawer
       anchor="left"
-      onClose={onClose}
-      open={open}
+      // onClose={onClose}
+      // open={open}
       PaperProps={{
         sx: {
           backgroundColor: "neutral.900",
