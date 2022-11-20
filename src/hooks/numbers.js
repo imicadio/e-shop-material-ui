@@ -1,0 +1,1 @@
+export const floorDown = (value) => Math.round(Math.floor(value));

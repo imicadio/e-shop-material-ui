@@ -255,6 +255,9 @@ export const theme = createTheme({
       secondary: "#65748B",
       disabled: "rgba(55, 65, 81, 0.48)",
     },
+    customOutlined: {
+      main: "#d8d8d8"
+    }
   },
   shape: {
     borderRadius: 8,

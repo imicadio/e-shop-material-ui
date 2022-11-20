@@ -9,13 +9,13 @@ const listProductSlice = createSlice({
   initialState,
   reducers: {
     STORE_PRODUCTS: (state, action) => {
-      state.products = action.payload.products;      
+      state.products = action.payload.products;    
     },
   },
 });
 
 export const { STORE_PRODUCTS } = listProductSlice.actions;
 
-export const fetchProducts = (state) => state.listProducts.products;
+export const selectProducts = (state) => state.listProducts.products;
 
 export default listProductSlice.reducer;

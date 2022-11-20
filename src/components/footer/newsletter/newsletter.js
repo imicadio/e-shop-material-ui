@@ -104,7 +104,7 @@ const Newsletter = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  Search
+                  Submit
                 </Typography>
               </Button>
             </Box>
