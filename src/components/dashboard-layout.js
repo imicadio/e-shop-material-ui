@@ -20,7 +20,6 @@ export const DashboardLayout = (props) => {
 
   return (
     <>
-    <h2>test</h2>
       <DashboardLayoutRoot>
         <Box
           sx={{

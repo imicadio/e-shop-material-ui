@@ -87,7 +87,8 @@ export const DashboardSidebar = (props) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%'
+          height: '100%',
+          position: 'relative'
         }}
       >
         <div>
@@ -244,7 +245,8 @@ export const DashboardSidebar = (props) => {
         sx: {
           backgroundColor: 'neutral.900',
           color: '#FFFFFF',
-          width: 280
+          width: 350,
+          position: 'relative'
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
