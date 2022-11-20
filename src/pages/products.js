@@ -5,14 +5,11 @@ import Breadcrumb from "../components/breadcrumbs/breadcrumb";
 import BreadcrumbItem from "../components/breadcrumbs/breadcrumb-item";
 import { useRouter } from "next/router";
 
-const Page = (props) => {
-  const { breadcrumbs } = props;
-  const router = useRouter();
-  console.log(props);
+const Page = () => {
 
   return (
     <Container maxWidth="xl">
-      <Breadcrumb breadcrumbs={breadcrumbs} />        
+      <Breadcrumb />        
       <h1>Products</h1>
     </Container>
   );
