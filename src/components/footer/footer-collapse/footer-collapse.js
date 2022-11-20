@@ -38,7 +38,6 @@ const FooterCollapse = ({ item }) => {
   };
 
   useEffect(() => {
-    console.log(lgUp);
     setOpen(lgUp);
   }, [lgUp]);
 

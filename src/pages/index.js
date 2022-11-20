@@ -1,8 +1,9 @@
+import { Container } from "@mui/material";
 import React from "react";
 import { MainLayout } from "../layout/layout";
 
 const Page = () => {
-  return <h2>test main layout</h2>;
+  return <Container maxWidth="xl">test main layout</Container>;
 };
 
 Page.getLayout = (page) => <MainLayout>{page}</MainLayout>;

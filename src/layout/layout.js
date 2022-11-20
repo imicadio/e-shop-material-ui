@@ -25,10 +25,13 @@ export const MainLayout = (props) => {
         component="main"
         sx={{
           flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <Header open={open} setActiveMenu={setActiveMenu} />
-        <Navigation open={open} setActiveMenu={setActiveMenu} />
+        
         {children}
         <Footer />
       </Box>

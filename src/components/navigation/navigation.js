@@ -55,8 +55,6 @@ const Navigation = ({ open, setActiveMenu }) => {
     setActiveMenu(open);
   };
 
-  console.log(auth)
-
   const logoutUser = () => {
     try {
       // This can be call inside AuthProvider component, but we do it here for simplicity
@@ -205,6 +203,7 @@ const Navigation = ({ open, setActiveMenu }) => {
           xs: 0,
           lg: "unset",
         },
+        mb: 5
       }}
       className="navigation-menu"
     >

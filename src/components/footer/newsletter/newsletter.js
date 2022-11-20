@@ -19,6 +19,7 @@ const Newsletter = () => {
           xs: 4,
           md: 7,
         },
+        mt: 5
       }}
     >
       <Container maxWidth="xl">
