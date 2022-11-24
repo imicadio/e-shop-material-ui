@@ -1,9 +1,10 @@
 import { Divider, Grid, Typography } from "@mui/material";
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import NextLink from "next/link";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
 import { inputBetweenNumber } from "../../../hooks/numbers";
+import { ProductListingContext } from "./product-listing-view";
 
 const ProductListingNormal = ({
   id,
@@ -19,7 +20,7 @@ const ProductListingNormal = ({
 }) => {
   const link = ROUTE.PRODUCTS_DETAIL + id;
 
-  const [amount, setAmount] = useState(1);
+  
 
   return (
     <>
@@ -111,7 +112,7 @@ const ProductListingNormal = ({
             justifyContent: "center",
           }}
         >
-          <InputNumber amount={amount} />
+          <InputNumber stock={stock} />
         </Grid>
       </Grid>
       <Divider />

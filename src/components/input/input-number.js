@@ -7,13 +7,22 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { ProductListingContext } from "../product-listing/product-listing-view/product-listing-view";
+import { inputBetweenNumber } from "../../hooks/numbers";
 
-const InputNumber = ({ amount }) => {
-  
+const InputNumber = ({ stock }) => {
+  const [amount, setAmount] = useContext(ProductListingContext);
+
+  const increment = () => amount < stock && setAmount(amount+ 1);
+  const decrement = () => amount > 1 && setAmount(amount - 1);
+  const handleAmount = (e) => {
+    setAmount(inputBetweenNumber(e.target.value, stock));
+  };
+
   return (
     <>
       <FormControl
@@ -22,17 +31,18 @@ const InputNumber = ({ amount }) => {
           alignItems: "cetner",
           flexDirection: "row",
           border: 1,
-          borderColor: 'primary.gray'
+          borderColor: "primary.gray",
         }}
       >
         <OutlinedInput
           sx={{
             maxWidth: "70px",
             fieldset: {
-              border: 0, 
-            }            
+              border: 0,
+            },
           }}
           value={amount}
+          onChange={handleAmount}
         />
         <Box
           sx={{
@@ -40,7 +50,7 @@ const InputNumber = ({ amount }) => {
             flexDirection: "column",
             backgroundColor: "primary.gray",
             borderLeft: 1,
-            borderColor: 'primary.gray'
+            borderColor: "primary.gray",
           }}
         >
           <IconButton
@@ -49,8 +59,9 @@ const InputNumber = ({ amount }) => {
               borderRadius: 0,
               "&:hover": {
                 backgroundColor: "primary.lightGray",
-              },
+              },              
             }}
+            onClick={increment}
           >
             <AddIcon
               sx={{
@@ -67,6 +78,7 @@ const InputNumber = ({ amount }) => {
                 backgroundColor: "primary.lightGray",
               },
             }}
+            onClick={decrement}
           >
             <RemoveIcon
               sx={{
