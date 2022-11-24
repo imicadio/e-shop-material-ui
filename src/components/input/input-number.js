@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const InputNumber = ({ amount }) => {
+  
   return (
     <>
       <FormControl
@@ -20,11 +21,16 @@ const InputNumber = ({ amount }) => {
           display: "flex",
           alignItems: "cetner",
           flexDirection: "row",
+          border: 1,
+          borderColor: 'primary.gray'
         }}
       >
         <OutlinedInput
           sx={{
             maxWidth: "70px",
+            fieldset: {
+              border: 0, 
+            }            
           }}
           value={amount}
         />
@@ -33,6 +39,8 @@ const InputNumber = ({ amount }) => {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "primary.gray",
+            borderLeft: 1,
+            borderColor: 'primary.gray'
           }}
         >
           <IconButton
@@ -46,7 +54,7 @@ const InputNumber = ({ amount }) => {
           >
             <AddIcon
               sx={{
-                fontSize: "14px",
+                fontSize: "12px",
               }}
             />
           </IconButton>
@@ -62,7 +70,7 @@ const InputNumber = ({ amount }) => {
           >
             <RemoveIcon
               sx={{
-                fontSize: "14px",
+                fontSize: "12px",
               }}
             />
           </IconButton>

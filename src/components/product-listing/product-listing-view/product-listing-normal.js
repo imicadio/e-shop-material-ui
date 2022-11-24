@@ -3,8 +3,7 @@ import React, { createContext, useState } from "react";
 import NextLink from "next/link";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
-
-export const ProductListingContext = createContext(0);
+import { inputBetweenNumber } from "../../../hooks/numbers";
 
 const ProductListingNormal = ({
   id,
@@ -22,9 +21,8 @@ const ProductListingNormal = ({
 
   const [amount, setAmount] = useState(1);
 
-  console.log(link);
   return (
-    <ProductListingContext.Provider value={{amount, setAmount}}>
+    <>
       <Grid
         container
         spacing={4}
@@ -47,7 +45,7 @@ const ProductListingNormal = ({
             overflow: "hidden",
           }}
         >
-          <img src={thumbnail} alt={title} height="auto" width="100%" objectFit="cover" />
+          <img src={thumbnail} alt={title} height="auto" width="100%" />
         </Grid>
         <Grid
           item
@@ -73,7 +71,7 @@ const ProductListingNormal = ({
           xs={2}
           sx={{
             display: "flex",
-            flexDirection: 'column',
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -117,7 +115,7 @@ const ProductListingNormal = ({
         </Grid>
       </Grid>
       <Divider />
-    </ProductListingContext.Provider>
+    </>
   );
 };
 

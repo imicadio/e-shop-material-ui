@@ -6,7 +6,7 @@ import { ROUTE } from "../../shared/routing";
 
 const Page = ({ product }) => {
 
-    console.log(product)
+    // console.log(product)
 
   return <Container maxWidth="xl">detail Page: </Container>;
 };
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
   const res = await fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS + ".json");
   const products = await res.json();
 
-  console.log(products);
+  // console.log(products);
 
   const paths = products.map((product) => ({
     params: { id: product.id.toString() },
