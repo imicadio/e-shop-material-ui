@@ -14,7 +14,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { ProductListingContext } from "../product-listing/product-listing-view/product-listing-view";
 import { inputBetweenNumber } from "../../hooks/numbers";
 
-const InputNumber = ({ stock }) => {
+const InputNumber = ({ stock, display }) => {
   const [amount, setAmount] = useContext(ProductListingContext);
 
   const increment = () => amount < stock && setAmount(amount+ 1);
@@ -101,10 +101,7 @@ const InputNumber = ({ stock }) => {
           component="span"
           sx={{
             ml: 1,
-            display: {
-              xs: "none",
-              xl: "block",
-            },
+            ...display
           }}
         >
           Add to cart

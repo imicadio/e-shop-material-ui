@@ -10,6 +10,7 @@ import { useProducts } from "../../hooks/useProducts";
 import ProductListingHeader from "../../components/product-listing/product-listing-header";
 import ProductListing from "../../components/product-listing/product-listing";
 import { floorDown } from "../../hooks/numbers";
+import { Pagination } from "@mui/material";
 
 const Page = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,14 @@ const Page = () => {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         viewList={viewList}
+      />
+      <Pagination
+        count={totalPages}
+        color="primary"
+        sx={{
+          mt: 3,
+          justifyContent: 'end'
+        }}
       />
     </>
   );
