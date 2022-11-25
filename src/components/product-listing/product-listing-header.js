@@ -14,14 +14,14 @@ import {
 import React from "react";
 import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
 import ViewDayIcon from "@mui/icons-material/ViewDay";
-import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { inputBetweenNumber } from "../../hooks/numbers";
+import Search from "../search/search";
 
 const ProductListingHeader = ({
   setListView,
-  hadleSearch,
+  handleSearch,
   itemsPerPage,
   handleItemsPerPage,
   currentPage,
@@ -95,7 +95,8 @@ const ProductListingHeader = ({
             display: "flex",
           }}
         >
-          <FormControl fullWidth>
+          <Search handleSearch={handleSearch} wordEntered={search} />
+          {/* <FormControl fullWidth>
             <OutlinedInput placeholder="Please enter text" onChange={hadleSearch} />
           </FormControl>
           <Button
@@ -107,7 +108,7 @@ const ProductListingHeader = ({
             }}
           >
             <SearchIcon />
-          </Button>
+          </Button> */}
         </Grid>
 
         {/* Pagination */}

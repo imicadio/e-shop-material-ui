@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Router from 'next/router';
+import Router from "next/router";
 import NextLink from "next/link";
 import {
   Box,
@@ -18,7 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { ROUTE } from "../../../shared/routing";
 import { AuthContext } from "../../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-
+import Search from "../../search/search";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -135,9 +135,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               margin: "0 auto",
             }}
           >
-            <FormControl fullWidth>
-              <OutlinedInput placeholder="Please enter text" />
-            </FormControl>
+            <Search />
             <Button
               variant="contained"
               sx={{

@@ -48,7 +48,7 @@ const Page = () => (
         >
           <Pagination
             color="primary"
-            count={3}
+            count="3"
             size="small"
           />
         </Box>

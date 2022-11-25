@@ -86,7 +86,7 @@ const Newsletter = () => {
                   backgroundColor: "white",
                 }}
               >
-                <OutlinedInput placeholder="Please enter text" />
+                <OutlinedInput placeholder="e-mail" />
               </FormControl>
               <Button
                 variant="contained"

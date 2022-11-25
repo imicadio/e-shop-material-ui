@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import { SidebarLayout } from "../../layout/sidebar-layout";
 import ProductsSidebar from "./products-sidebar";
 import { STORE_PRODUCTS } from "../../redux/slice/listProductSlice";
-import { FILTERS_STORE, selectFilteredProducts, selectSearch } from "../../redux/slice/filterSlice";
+import { FILTERS_STORE, FILTER_BY_SEARCH, selectFilteredProducts, selectSearch } from "../../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useProducts } from "../../hooks/useProducts";
 import ProductListingHeader from "../../components/product-listing/product-listing-header";
@@ -23,7 +23,7 @@ const Page = () => {
   const search = useSelector(selectSearch);
 
   const setListView = (value) => setViewList(value);
-  const hadleSearch = (event) => {
+  const handleSearch = (event) => {
     setCurrentPage(1);
     dispatch(FILTER_BY_SEARCH({ search: event.target.value }));
   };
@@ -49,7 +49,7 @@ const Page = () => {
       <Breadcrumb />
       <ProductListingHeader
         setListView={setListView}
-        hadleSearch={hadleSearch}
+        handleSearch={handleSearch}
         handleItemsPerPage={handleSetItemsPerPage}
         handleCurrentPage={handleCurrentPage}
         itemsPerPage={itemsPerPage}
@@ -64,11 +64,11 @@ const Page = () => {
         viewList={viewList}
       />
       <Pagination
-        count={totalPages}
+        count={totalPages ? totalPages : 0}
         color="primary"
         sx={{
           mt: 3,
-          justifyContent: 'end'
+          marginLeft: 'auto'
         }}
       />
     </>
