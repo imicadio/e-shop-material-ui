@@ -85,12 +85,12 @@ const HeaderContent = ({ open, setActiveMenu }) => {
           zIndex: (theme) => theme.zIndex.appBar + 101,
           maxHeight: "30vh",
           overflowY: "auto",
-          width: '100%',
+          width: "100%",
         }}
       >
         {filteredData.map((product) => (
-          <>
-            <NextLink href={ROUTE.PRODUCTS_DETAIL + product.id} passHref key={product.id}>
+          <Box key={product.id}>
+            <NextLink href={ROUTE.PRODUCTS_DETAIL + product.id} passHref>
               <a>
                 <Grid
                   container
@@ -142,7 +142,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               </a>
             </NextLink>
             <Divider />
-          </>
+          </Box>
         ))}
       </Paper>
     ) : null;

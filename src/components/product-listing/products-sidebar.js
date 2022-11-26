@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControlLabel,
+  FormGroup,
+  List,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { ChartBar as ChartBarIcon } from "../../icons/chart-bar";
-import { NavItem } from "../../components/nav-item";
+import { NavItem } from "../nav-item";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../redux/slice/listProductSlice";
 import {
@@ -15,6 +25,8 @@ import {
   selectMinPrice,
   selectSearch,
 } from "../../redux/slice/filterSlice";
+import Search from "../search/search";
+import CustomCollapse from "../collapse/collapse";
 
 const items = [
   {
@@ -88,6 +100,70 @@ const ProductsSidebar = () => {
     else setShowResetBtn(false);
   }, [selectedFilter, price, search]);
 
+  const handleCheckbox = (e, name) => {
+    const value = e.target.value;
+    const valueIndex = selectedFilter[name].indexOf(value);
+
+    if (valueIndex >= 0) {
+      return handleSelect(
+        name,
+        selectedFilter[name].filter((element) => element !== value)
+      );
+    } else {
+      return handleSelect(name, [...selectedFilter[name], value]);
+    }
+  };
+
+  const renderBrands = (
+    <FormGroup
+      sx={{
+        maxHeight: "300px",
+        overflowY: "auto",
+        flexWrap: "nowrap",
+        pl: 2,
+      }}
+    >
+      {brands.map((item, id) => (
+        <FormControlLabel
+          key={id}
+          control={
+            <Checkbox
+              value={item}
+              checked={selectedFilter.brand.includes(item.toUpperCase())}
+              onClick={(e) => handleCheckbox(e, "brand")}
+            />
+          }
+          label={item}
+        />
+      ))}
+    </FormGroup>
+  );
+
+  const renderCategories = (
+    <FormGroup
+      sx={{
+        maxHeight: "300px",
+        overflowY: "auto",
+        flexWrap: "nowrap",
+        pl: 2,
+      }}
+    >
+      {categories.map((item, id) => (
+        <FormControlLabel
+          key={id}
+          control={
+            <Checkbox
+              value={item}
+              checked={selectedFilter.category.includes(item.toUpperCase())}
+              onClick={(e) => handleCheckbox(e, "category")}
+            />
+          }
+          label={item}
+        />
+      ))}
+    </FormGroup>
+  );
+
   //   useEffect(
   //     () => {
   //       if (!router.isReady) {
@@ -127,10 +203,48 @@ const ProductsSidebar = () => {
             mb: 2,
           }}
         />
-        <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
+        <Box
+          px={{
+            xs: 2,
+            lg: 0,
+          }}
+        >
+          {lgUp ? null : (
+            <Search
+              wordEntered={search}
+              handleSearch={handleSearch}
+              handleClear={handleClearSearch}
+            />
+          )}
+          <Box
+            sx={{
+              backgroundColor: "primary.lightGray",
+            }}
+          >
+            <CustomCollapse
+              item={{ title: "Brands", children: [1, 2] }}
+              headerStyle={{ borderBottom: 1, borderColor: "primary.middleBlack" }}
+            >
+              {renderBrands}
+            </CustomCollapse>
+            {/* {items.map((item) => (
             <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
-          ))}
+          ))} */}
+          </Box>
+
+          <Box
+            sx={{
+              backgroundColor: "primary.lightGray",
+              mt: 2,
+            }}
+          >
+            <CustomCollapse
+              item={{ title: "Categories", children: [1, 2] }}
+              headerStyle={{ borderBottom: 1, borderColor: "primary.middleBlack" }}
+            >
+              {renderCategories}
+            </CustomCollapse>
+          </Box>
         </Box>
       </Box>
     </>
@@ -160,12 +274,11 @@ const ProductsSidebar = () => {
     <Drawer
       anchor="left"
       // onClose={onClose}
-      // open={open}
+      open={open}
       PaperProps={{
         sx: {
-          backgroundColor: "neutral.900",
-          color: "#FFFFFF",
-          width: 280,
+          width: "85vw",
+          maxWidth: "350px",
         },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

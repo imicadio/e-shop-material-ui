@@ -10,27 +10,16 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-const FooterCollapse = ({ item }) => {
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
+const CustomCollapse = ({ children, item, breakpoint, headerStyle }) => {
+  const breakpointUp = useMediaQuery((theme) => theme.breakpoints.up(breakpoint), {
     defaultMatches: true,
     noSsr: false,
   });
   const [open, setOpen] = useState(true);
   const handleClick = () => setOpen(!open);
 
-  const renderChildren =
-    item.children.length > 0
-      ? item.children.map((child, id) => (
-          <List key={id} component="div" disablePadding>
-            <ListItemButton>
-              <ListItemText primary={child.title} />
-            </ListItemButton>
-          </List>
-        ))
-      : null;
-
   const renderArrow = () => {
-    if (item?.children.length > 0 && !lgUp) {
+    if (item?.children.length > 0 && !breakpointUp) {
       if (open) return <ExpandLess />;
       else return <ExpandMore />;
     }
@@ -38,19 +27,20 @@ const FooterCollapse = ({ item }) => {
   };
 
   useEffect(() => {
-    setOpen(lgUp);
-  }, [lgUp]);
+    setOpen(breakpointUp);
+  }, [breakpointUp]);
 
   return (
     <Grid item xs={12}>
       <ListItemButton
         sx={{
+          ...headerStyle,
           px: {
             xs: 0,
             md: 2,
           },
         }}
-        onClick={!lgUp ? handleClick : null}
+        onClick={!breakpointUp ? handleClick : null}
       >
         <ListItemText
           disableTypography
@@ -63,10 +53,10 @@ const FooterCollapse = ({ item }) => {
         {renderArrow()}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {renderChildren}
+        {children}
       </Collapse>
     </Grid>
   );
 };
 
-export default FooterCollapse;
+export default CustomCollapse;

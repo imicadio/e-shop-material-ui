@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import { MainLayout } from "../../layout/layout";
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import { SidebarLayout } from "../../layout/sidebar-layout";
-import ProductsSidebar from "./products-sidebar";
+import ProductsSidebar from "../../components/product-listing/products-sidebar";
 import { STORE_PRODUCTS } from "../../redux/slice/listProductSlice";
-import { FILTERS_STORE, FILTER_BY_SEARCH, selectFilteredProducts, selectSearch } from "../../redux/slice/filterSlice";
+import {
+  FILTERS_STORE,
+  FILTER_BY_SEARCH,
+  selectFilteredProducts,
+  selectSearch,
+} from "../../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useProducts } from "../../hooks/useProducts";
 import ProductListingHeader from "../../components/product-listing/product-listing-header";
@@ -64,11 +69,12 @@ const Page = () => {
         viewList={viewList}
       />
       <Pagination
+        onChange={handlePagination}
         count={totalPages ? totalPages : 0}
         color="primary"
         sx={{
           mt: 3,
-          marginLeft: 'auto'
+          marginLeft: "auto",
         }}
       />
     </>

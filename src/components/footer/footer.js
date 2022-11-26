@@ -1,8 +1,8 @@
-import { Grid } from "@mui/material";
+import { Grid, List, ListItemButton, ListItemText } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React, { useState } from "react";
 import BottomFooter from "./bottom/bottomFooter";
-import FooterCollapse from "./footer-collapse/footer-collapse";
+import CustomCollapse from "../collapse/collapse";
 import Newsletter from "./newsletter/newsletter";
 
 const footerList = [
@@ -86,6 +86,18 @@ const footerList = [
 ];
 
 const Footer = () => {
+  const renderChildren = (item) => {
+    return item.children.length > 0
+      ? item.children.map((child, id) => (
+          <List key={id} component="div" disablePadding>
+            <ListItemButton>
+              <ListItemText primary={child.title} />
+            </ListItemButton>
+          </List>
+        ))
+      : null;
+  };
+
   const renderCollapsed = footerList.map((item, id) => (
     <Grid
       item
@@ -97,7 +109,9 @@ const Footer = () => {
         width: "100%",
       }}
     >
-      <FooterCollapse item={item} />
+      <CustomCollapse item={item} breakpoint="lg">
+        {renderChildren(item)}
+      </CustomCollapse>
     </Grid>
   ));
 
