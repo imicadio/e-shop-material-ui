@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Router from "next/router";
 import NextLink from "next/link";
 import {
@@ -6,12 +6,12 @@ import {
   Container,
   Typography,
   Grid,
-  FormControl,
-  OutlinedInput,
   Button,
   useMediaQuery,
   IconButton,
   Badge,
+  Paper,
+  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,6 +19,8 @@ import { ROUTE } from "../../../shared/routing";
 import { AuthContext } from "../../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import Search from "../../search/search";
+import { useSelector } from "react-redux";
+import { selectProducts } from "../../../redux/slice/listProductSlice";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -27,6 +29,28 @@ const HeaderContent = ({ open, setActiveMenu }) => {
   });
 
   const auth = useContext(AuthContext);
+
+  // SEARCH
+
+  const [wordEntered, setWordEntered] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const products = useSelector(selectProducts);
+
+  const handleSearch = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    const newFilter = products.filter((value) => {
+      return value.title.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    if (searchWord === "") {
+      setFilteredData([]);
+    } else {
+      setFilteredData(newFilter);
+    }
+  };
+
+  // END SEARCH
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -50,6 +74,78 @@ const HeaderContent = ({ open, setActiveMenu }) => {
       console.error(err);
     }
   };
+
+  const renderSearchResults =
+    filteredData.length > 0 ? (
+      <Paper
+        elevations={12}
+        sx={{
+          p: 3,
+          position: "absolute",
+          zIndex: (theme) => theme.zIndex.appBar + 101,
+          maxHeight: "30vh",
+          overflowY: "auto",
+          width: '100%',
+        }}
+      >
+        {filteredData.map((product) => (
+          <>
+            <NextLink href={ROUTE.PRODUCTS_DETAIL + product.id} passHref key={product.id}>
+              <a>
+                <Grid
+                  container
+                  sx={{
+                    my: 2,
+                  }}
+                >
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{
+                      height: 1,
+                    }}
+                  >
+                    <img
+                      src={product.thumbnail}
+                      alt={product.title}
+                      style={{
+                        width: "100%",
+                        aspectRatio: 1,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={7} mx={2}>
+                    <Typography
+                      variant="body2"
+                      component="p"
+                      sx={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {product.title} {product.description}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs
+                    sx={{
+                      textAlign: "right",
+                    }}
+                  >
+                    <Typography variant="body1" component="p" fontWeight="bold">
+                      ${product.price}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </a>
+            </NextLink>
+            <Divider />
+          </>
+        ))}
+      </Paper>
+    ) : null;
 
   const renderMenu = () => {
     if (!lgUp) {
@@ -135,38 +231,9 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               margin: "0 auto",
             }}
           >
-            <Search />
-            <Button
-              variant="contained"
-              sx={{
-                md: {
-                  display: "block",
-                },
-              }}
-            >
-              <Typography
-                variant="body1"
-                component="p"
-                sx={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  display: {
-                    xs: "none",
-                    md: "block",
-                  },
-                }}
-              >
-                Search
-              </Typography>
-              <SearchIcon
-                sx={{
-                  display: {
-                    xs: "block",
-                    md: "none",
-                  },
-                }}
-              />
-            </Button>
+            <Search wordEntered={wordEntered} handleSearch={handleSearch}>
+              {renderSearchResults}
+            </Search>
           </Box>
         </Grid>
         <Grid item order={{ xs: 2, md: 3 }}>
