@@ -7,18 +7,20 @@ import { Container } from "@mui/system";
 import { Sidebar } from "./sidebar";
 
 export const SidebarLayout = (props) => {
-  const { children, sidebar } = props;
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const { children, sidebar } = props;  
 
   return (
     <Container maxWidth="xl">
       <Grid container spacing={5}>
-        <Grid item sx={{
-          position: {
-            xs: 'absolute',
-            lg: 'relative'
-          }
-        }}>
+        <Grid
+          item
+          sx={{
+            position: {
+              xs: "absolute",
+              lg: "relative",
+            },
+          }}
+        >
           {sidebar}
           {/* <Sidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} /> */}
         </Grid>

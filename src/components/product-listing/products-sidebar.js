@@ -41,7 +41,7 @@ const selectedFilterObject = {
   category: [],
 };
 
-const ProductsSidebar = () => {
+const ProductsSidebar = ({ onClose, open }) => {
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -164,19 +164,19 @@ const ProductsSidebar = () => {
     </FormGroup>
   );
 
-  //   useEffect(
-  //     () => {
-  //       if (!router.isReady) {
-  //         return;
-  //       }
+    useEffect(
+      () => {
+        if (!router.isReady) {
+          return;
+        }
 
-  //       if (open) {
-  //         onClose?.();
-  //       }
-  //     },
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //     [router.asPath]
-  //   );
+        if (open) {
+          onClose?.();
+        }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [router.asPath]
+    );
 
   const content = (
     <>
@@ -219,6 +219,7 @@ const ProductsSidebar = () => {
           <Box
             sx={{
               backgroundColor: "primary.lightGray",
+              mt: 2
             }}
           >
             <CustomCollapse
@@ -227,9 +228,6 @@ const ProductsSidebar = () => {
             >
               {renderBrands}
             </CustomCollapse>
-            {/* {items.map((item) => (
-            <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
-          ))} */}
           </Box>
 
           <Box
@@ -273,7 +271,7 @@ const ProductsSidebar = () => {
   return (
     <Drawer
       anchor="left"
-      // onClose={onClose}
+      onClose={onClose}
       open={open}
       PaperProps={{
         sx: {

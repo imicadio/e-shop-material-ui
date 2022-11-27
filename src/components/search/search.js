@@ -1,6 +1,15 @@
-import { Box, Button, FormControl, OutlinedInput, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Search = ({
   customClass,
@@ -24,13 +33,32 @@ const Search = ({
           width: "100%",
         }}
       >
-        <FormControl fullWidth>
+        <TextField
+          placeholder="Search"
+          type="text"
+          variant="outlined"
+          fullWidth
+          onChange={handleSearch}
+          value={wordEntered}
+          InputProps={{
+            endAdornment: wordEntered && (
+              <IconButton aria-label="toggle password visibility" onClick={handleClear}>
+                <ClearIcon />
+              </IconButton>
+            ),
+          }}
+        />
+
+        {/* <FormControl fullWidth>
           <OutlinedInput
             placeholder="Search prouct in list"
             onChange={handleSearch}
             value={wordEntered}
           />
-        </FormControl>
+          <IconButton aria-label="delete">
+            <ClearIcon />
+          </IconButton>
+        </FormControl> */}
         <Button
           variant="contained"
           sx={{

@@ -36,6 +36,11 @@ const HeaderContent = ({ open, setActiveMenu }) => {
   const [filteredData, setFilteredData] = useState([]);
   const products = useSelector(selectProducts);
 
+  const handleClear = () => {
+    setWordEntered("");
+    setFilteredData([]);
+  };
+
   const handleSearch = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
@@ -231,7 +236,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               margin: "0 auto",
             }}
           >
-            <Search wordEntered={wordEntered} handleSearch={handleSearch}>
+            <Search wordEntered={wordEntered} handleSearch={handleSearch} handleClear={handleClear}>
               {renderSearchResults}
             </Search>
           </Box>

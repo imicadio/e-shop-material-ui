@@ -18,6 +18,7 @@ import { floorDown } from "../../hooks/numbers";
 import { Pagination } from "@mui/material";
 
 const Page = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
   const dispatch = useDispatch();
   const [viewList, setViewList] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,6 +43,10 @@ const Page = () => {
   const handleCurrentPage = (value) => setCurrentPage(value);
   const handlePagination = (event, value) => setCurrentPage(value);
 
+  const handleClearSearch = () => {
+    dispatch(FILTER_BY_SEARCH({ search: "" }));
+  };
+
   useEffect(() => {
     const tmpTotalPages = floorDown(filteredProducts.length / itemsPerPage);
     tmpTotalPages > 1
@@ -50,7 +55,9 @@ const Page = () => {
   }, [filteredProducts]);
 
   return (
-    <>
+    <SidebarLayout
+      sidebar={<ProductsSidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />}
+    >
       <Breadcrumb />
       <ProductListingHeader
         setListView={setListView}
@@ -61,6 +68,8 @@ const Page = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         search={search}
+        onSidebarOpen={() => setSidebarOpen(true)}
+        handleClearSearch={handleClearSearch}
       />
       <ProductListing
         products={filteredProducts}
@@ -77,15 +86,11 @@ const Page = () => {
           marginLeft: "auto",
         }}
       />
-    </>
+    </SidebarLayout>
   );
 };
 
-Page.getLayout = (page) => (
-  <MainLayout>
-    <SidebarLayout sidebar={<ProductsSidebar />}>{page}</SidebarLayout>
-  </MainLayout>
-);
+Page.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
 export default Page;
 
