@@ -84,6 +84,14 @@ const Page = () => {
         sx={{
           mt: 3,
           marginLeft: "auto",
+          ul: {
+            "& .MuiPaginationItem-root": {
+              "&:hover": {
+                backgroundColor: "secondary.main",
+                color: 'white'
+              },
+            },
+          },
         }}
       />
     </SidebarLayout>
