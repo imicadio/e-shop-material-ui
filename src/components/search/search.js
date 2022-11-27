@@ -48,17 +48,6 @@ const Search = ({
             ),
           }}
         />
-
-        {/* <FormControl fullWidth>
-          <OutlinedInput
-            placeholder="Search prouct in list"
-            onChange={handleSearch}
-            value={wordEntered}
-          />
-          <IconButton aria-label="delete">
-            <ClearIcon />
-          </IconButton>
-        </FormControl> */}
         <Button
           variant="contained"
           sx={{
