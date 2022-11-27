@@ -13,6 +13,8 @@ import { AuthGuard } from "../components/auth-guard";
 import { Loader } from "../components/loader/loader";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 registerChartJs();
 
@@ -50,6 +52,7 @@ const App = (props) => {
           <CssBaseline />
           <Provider store={store}>
             <AuthProvider>
+              <ToastContainer />
               <AuthConsumer>{(auth) => renderComponent(auth)}</AuthConsumer>
             </AuthProvider>
           </Provider>

@@ -6,7 +6,8 @@ import { ProductListingContext } from "./product-listing-view";
 import { useBrutto } from "../../../hooks/useBrutto";
 import { useTotalPrice } from "../../../hooks/useTotalPrice";
 import { Box } from "@mui/system";
-import { Divider, Grid, Rating, Typography } from "@mui/material";
+import { Button, Divider, Grid, Rating, Typography } from "@mui/material";
+import { AuthContext } from "../../../contexts/auth-context";
 
 const ProductListingResponsive = ({
   id,
@@ -20,14 +21,33 @@ const ProductListingResponsive = ({
   thumbnail,
   images,
 }) => {
+  const auth = useContext(AuthContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
 
-  const [amount] = useContext(ProductListingContext);
+  const renderComponentAddToCart = auth.isAuthenticated ? (
+    <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <InputNumber stock={stock} />
+      </Box>
+  ) : (
+    <Box      
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
+      <Button href={link} variant="outlined" sx={{}}>
+        Show product
+      </Button>
+    </Box>
+  );
 
-  const priceBrutto = useBrutto(price);
-
-  const totalNetto = useTotalPrice(price, amount);
-  const totalBrutto = useTotalPrice(priceBrutto, amount);
   return (
     <Box
       sx={{
@@ -80,15 +100,9 @@ const ProductListingResponsive = ({
           </Typography>
         </Grid>
       </Grid>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <InputNumber stock={stock} />
-      </Box>
+
+      {renderComponentAddToCart}
+      
       <Divider
         sx={{
           mt: 4,

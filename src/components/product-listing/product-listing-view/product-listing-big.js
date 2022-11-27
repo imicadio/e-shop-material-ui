@@ -4,8 +4,9 @@ import NextLink from "next/link";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
 import { ProductListingContext } from "./product-listing-view";
-import { useBrutto } from '../../../hooks/useBrutto';
+import { useBrutto } from "../../../hooks/useBrutto";
 import { useTotalPrice } from "../../../hooks/useTotalPrice";
+import { AuthContext } from "../../../contexts/auth-context";
 
 const ProductListingBig = ({
   id,
@@ -19,6 +20,7 @@ const ProductListingBig = ({
   thumbnail,
   images,
 }) => {
+  const auth = useContext(AuthContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
 
   const [amount] = useContext(ProductListingContext);
@@ -27,6 +29,18 @@ const ProductListingBig = ({
 
   const totalNetto = useTotalPrice(price, amount);
   const totalBrutto = useTotalPrice(priceBrutto, amount);
+
+  const renderComponentAddToCart = auth.isAuthenticated ? (
+    <Box
+      sx={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "flex-end",
+      }}
+    >
+      <InputNumber stock={stock} />
+    </Box>
+  ) : null;
 
   return (
     <>
@@ -68,9 +82,9 @@ const ProductListingBig = ({
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            flexDirection: 'column',
-            justifyContent: 'center',
-            gap: 1
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 1,
           }}
         >
           <NextLink href={link} passHref>
@@ -170,17 +184,9 @@ const ProductListingBig = ({
                 brutto pc.
               </Typography>
             </Grid>
-          </Grid>
 
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "flex-end",
-            }}
-          >
-            <InputNumber stock={stock} />
-          </Box>
+            {renderComponentAddToCart}
+          </Grid>
         </Grid>
       </Grid>
     </>

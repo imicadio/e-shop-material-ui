@@ -13,14 +13,21 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { ProductListingContext } from "../product-listing/product-listing-view/product-listing-view";
 import { inputBetweenNumber } from "../../hooks/numbers";
+import { ADD_TO_CART } from "../../redux/slice/cartSlice";
+import { useDispatch } from "react-redux";
 
-const InputNumber = ({ stock, display }) => {
+const InputNumber = ({ stock, display, product }) => {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useContext(ProductListingContext);
 
-  const increment = () => amount < stock && setAmount(amount+ 1);
+  const increment = () => amount < stock && setAmount(amount + 1);
   const decrement = () => amount > 1 && setAmount(amount - 1);
   const handleAmount = (e) => {
     setAmount(inputBetweenNumber(e.target.value, stock));
+  };
+
+  const addToCart = () => {
+    dispatch(ADD_TO_CART({ product, amount }));
   };
 
   return (
@@ -59,7 +66,7 @@ const InputNumber = ({ stock, display }) => {
               borderRadius: 0,
               "&:hover": {
                 backgroundColor: "primary.lightGray",
-              },              
+              },
             }}
             onClick={increment}
           >
@@ -95,13 +102,14 @@ const InputNumber = ({ stock, display }) => {
           py: 2,
           ml: 1,
         }}
+        onClick={addToCart}
       >
-        <AddShoppingCartIcon />{" "}
+        <AddShoppingCartIcon />
         <Box
           component="span"
           sx={{
             ml: 1,
-            ...display
+            ...display,
           }}
         >
           Add to cart

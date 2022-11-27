@@ -1,22 +1,62 @@
-import { Divider, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Button, Divider, Grid, Typography } from "@mui/material";
+import React, { useContext } from "react";
 import NextLink from "next/link";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
+import { AuthContext } from "../../../contexts/auth-context";
 
-const ProductListingNormal = ({
-  id,
-  title,
-  description,
-  price,
-  stock,
-  discountPercentage,
-  rating,
-  category,
-  thumbnail,
-  images,
-}) => {
+const ProductListingNormal = (props) => {
+  const auth = useContext(AuthContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
+  const {
+    id,
+    title,
+    description,
+    price,
+    stock,
+    discountPercentage,
+    rating,
+    category,
+    thumbnail,
+    images,
+  } = props;
+
+  const renderComponentAddToCart = auth.isAuthenticated ? (
+    <Grid
+      item
+      xs
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <InputNumber
+        product={props}
+        stock={stock}
+        display={{
+          display: {
+            xs: "none",
+            xl: "block",
+          },
+        }}
+      />
+    </Grid>
+  ) : (
+    <Grid
+      item
+      xs
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Button href={link} variant="outlined" sx={{}}>
+        Show product
+      </Button>
+    </Grid>
+  );
 
   return (
     <>
@@ -99,25 +139,8 @@ const ProductListingNormal = ({
             Stock
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <InputNumber
-            stock={stock}
-            display={{
-              display: {
-                xs: "none",
-                xl: "block",
-              },
-            }}
-          />
-        </Grid>
+
+        {renderComponentAddToCart}
       </Grid>
       <Divider />
     </>

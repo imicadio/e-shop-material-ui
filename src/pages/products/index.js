@@ -3,15 +3,12 @@ import { MainLayout } from "../../layout/layout";
 import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 import { SidebarLayout } from "../../layout/sidebar-layout";
 import ProductsSidebar from "../../components/product-listing/products-sidebar";
-import { STORE_PRODUCTS } from "../../redux/slice/listProductSlice";
 import {
-  FILTERS_STORE,
   FILTER_BY_SEARCH,
   selectFilteredProducts,
   selectSearch,
 } from "../../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useProducts } from "../../hooks/useProducts";
 import ProductListingHeader from "../../components/product-listing/product-listing-header";
 import ProductListing from "../../components/product-listing/product-listing";
 import { floorDown } from "../../hooks/numbers";
@@ -88,7 +85,7 @@ const Page = () => {
             "& .MuiPaginationItem-root": {
               "&:hover": {
                 backgroundColor: "secondary.main",
-                color: 'white'
+                color: "white",
               },
             },
           },
