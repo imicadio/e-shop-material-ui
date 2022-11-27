@@ -48,8 +48,8 @@ const ProductListingResponsive = ({
             overflow: "hidden",
             textOverflow: "ellipsis",
             display: "-webkit-box",
-            "-webkit-line-clamp": "2",
-            "-webkit-box-orient": "vertical",
+            WebkitLineClamp: "2",
+            WebkitBoxOrient: "vertical",
           }}
         >
           {description}
@@ -84,7 +84,7 @@ const ProductListingResponsive = ({
         sx={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: 'center'
+          justifyContent: "center",
         }}
       >
         <InputNumber stock={stock} />

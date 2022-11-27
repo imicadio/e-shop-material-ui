@@ -3,12 +3,15 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import {
   Box,
+  Button,
   Checkbox,
   Divider,
   Drawer,
   FormControlLabel,
   FormGroup,
+  IconButton,
   List,
+  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -27,6 +30,7 @@ import {
 } from "../../redux/slice/filterSlice";
 import Search from "../search/search";
 import CustomCollapse from "../collapse/collapse";
+import CloseIcon from "@mui/icons-material/Close";
 
 const items = [
   {
@@ -164,19 +168,38 @@ const ProductsSidebar = ({ onClose, open }) => {
     </FormGroup>
   );
 
-    useEffect(
-      () => {
-        if (!router.isReady) {
-          return;
-        }
+  const renderCloseIcon = lgUp ? null : (
+    <IconButton sx={{ justifyContent: "flex-end", p: 3 }} onClick={onClose}>
+      <CloseIcon />
+    </IconButton>
+  );
 
-        if (open) {
-          onClose?.();
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [router.asPath]
-    );
+  const renderResetFilters = showResetBtn ? (
+    <Button endIcon={<CloseIcon />} onClick={handleClear} sx={{
+      p: 0,
+      '&:hover': {
+        background: 'transparent',
+        color: 'secondary.main',
+        textDecoration: 'underline',
+      }
+    }}>
+      Clear all
+    </Button>
+  ) : null;
+
+  useEffect(
+    () => {
+      if (!router.isReady) {
+        return;
+      }
+
+      if (open) {
+        onClose?.();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [router.asPath]
+  );
 
   const content = (
     <>
@@ -187,16 +210,27 @@ const ProductsSidebar = ({ onClose, open }) => {
           height: "100%",
         }}
       >
-        <Typography
-          variant="h5"
-          component="h5"
+        {renderCloseIcon}
+        <Box
           sx={{
             backgroundColor: "primary.lightGray",
             p: 2,
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          Filter
-        </Typography>
+          <Typography
+            variant="h5"
+            component="h5"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Filter
+          </Typography>
+          {renderResetFilters}
+        </Box>
         <Divider
           sx={{
             borderColor: "primary.middleBlack",
@@ -219,7 +253,7 @@ const ProductsSidebar = ({ onClose, open }) => {
           <Box
             sx={{
               backgroundColor: "primary.lightGray",
-              mt: 2
+              mt: 2,
             }}
           >
             <CustomCollapse
