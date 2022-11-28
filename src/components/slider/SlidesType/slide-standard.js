@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NextLink from "next/link";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
 import InputNumber from "../../input/input-number";
+import { AuthContext } from "../../../contexts/auth-context";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const SlideStandard = ({ slide }) => {
+  const auth = useContext(AuthContext);
   const [amount, setAmount] = useState(1);
 
+  const renderTitle = auth.isAuthenticated ? (
+    <Grid container fullwidth>
+      <Grid item xs>
+        <Typography variant="h6">{slide.title}</Typography>
+        <Typography variant="body1">{slide.category}</Typography>
+      </Grid>
+      <Grid item>
+        <IconButton aria-label="add to wishlist">
+          <FavoriteBorderIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
+  ) : (
+    <>
+      <Typography variant="h6">{slide.title}</Typography>
+      <Typography variant="body1">{slide.category}</Typography>
+    </>
+  );
+
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      height: 1
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: 1,
+      }}
+    >
       <NextLink href="/" passHref>
         <a>
           <Box
@@ -27,14 +51,13 @@ const SlideStandard = ({ slide }) => {
               style={{ aspectRatio: 1, objectFit: "cover" }}
             />
           </Box>
-          <Typography variant="h6">{slide.title}</Typography>
-          <Typography variant="body1">{slide.category}</Typography>
+          {renderTitle}
         </a>
       </NextLink>
       <Box
         sx={{
           display: "flex",
-          mt: 2
+          mt: 2,
         }}
       >
         <InputNumber

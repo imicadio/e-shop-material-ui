@@ -1,9 +1,12 @@
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { ROUTE } from "../../../shared/routing";
 import TabPanel from "../../tab-panel/tab-panel";
 import Slider from "../slider";
 
 const SliderPromotionTabs = ({ slider, itemsPerView }) => {
+  const router = useRouter();
   const [value, setValue] = useState(0);
 
   const arrayTabsSlider = [
@@ -14,7 +17,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
-      category: 'laptops'
+      category: "laptops",
     },
     {
       title: "Smartphones",
@@ -23,7 +26,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
-      category: 'smartphones'
+      category: "smartphones",
     },
     {
       title: "Skincare",
@@ -32,16 +35,22 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
-      category: 'skincare'
+      category: "skincare",
     },
   ];
 
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setValue(newValue);
   };
 
   const renderTabs = arrayTabsSlider.map((tab) => <Tab key={tab.title} label={tab.title} />);
+
+  const goToCategory = () => {
+    router.push({
+      pathname: ROUTE.PRODUCTS,
+      query: { category: arrayTabsSlider[value].category },
+    });
+  };
 
   const renderSliders = arrayTabsSlider.map((slider, id) => (
     <Box
@@ -75,7 +84,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
             {renderTabs}
           </Tabs>
           <Button
-            onClick={() => {}}
+            onClick={goToCategory}
             sx={{
               ml: "auto",
             }}

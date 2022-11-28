@@ -50,7 +50,7 @@ const ProductsSidebar = ({ onClose, open }) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
-  });
+  }); 
 
   const dispatch = useDispatch();
 
@@ -200,6 +200,15 @@ const ProductsSidebar = ({ onClose, open }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath]
   );
+
+  useEffect(() => {    
+    const routerParam = router.query;
+    
+    if(routerParam) {
+      console.log(routerParam.category)
+      handleSelect('category', routerParam.category.toUpperCase());
+    }
+  }, [])
 
   const content = (
     <>

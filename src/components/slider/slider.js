@@ -24,8 +24,6 @@ const Slider = ({
     noSsr: false,
   });
 
-  console.log('slider per view: ', perView)
-
   const swiperRef = React.useRef(null);
 
   const swiperParams = {
