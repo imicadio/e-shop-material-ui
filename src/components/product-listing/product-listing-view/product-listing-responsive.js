@@ -23,19 +23,20 @@ const ProductListingResponsive = ({
 }) => {
   const auth = useContext(AuthContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
+  const [amount, setAmount] = useContext(ProductListingContext);
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <InputNumber stock={stock} />
-      </Box>
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
+      <InputNumber stock={stock} amount={amount} setAmount={setAmount} />
+    </Box>
   ) : (
-    <Box      
+    <Box
       sx={{
         display: "flex",
         flexDirection: "row",
@@ -102,7 +103,7 @@ const ProductListingResponsive = ({
       </Grid>
 
       {renderComponentAddToCart}
-      
+
       <Divider
         sx={{
           mt: 4,

@@ -8,6 +8,8 @@ const Page = ({ product }) => {
 
     // console.log(product)
 
+    const router = useRouter();
+
   return <Container maxWidth="xl">detail Page: </Container>;
 };
 

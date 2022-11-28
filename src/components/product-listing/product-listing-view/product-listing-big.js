@@ -21,9 +21,8 @@ const ProductListingBig = ({
   images,
 }) => {
   const auth = useContext(AuthContext);
+  const [amount, setAmount] = useContext(ProductListingContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
-
-  const [amount] = useContext(ProductListingContext);
 
   const priceBrutto = useBrutto(price);
 
@@ -38,7 +37,7 @@ const ProductListingBig = ({
         justifyContent: "flex-end",
       }}
     >
-      <InputNumber stock={stock} />
+      <InputNumber stock={stock} amount={setAmount} setAmount={setAmount} />
     </Box>
   ) : null;
 

@@ -72,7 +72,6 @@ const Page = () => {
     }),
 
     onSubmit: async (values, helpers) => {
-      console.log("Register user");
 
       const createUserRole = async (postData) => {
         try {

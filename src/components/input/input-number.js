@@ -16,9 +16,8 @@ import { inputBetweenNumber } from "../../hooks/numbers";
 import { ADD_TO_CART } from "../../redux/slice/cartSlice";
 import { useDispatch } from "react-redux";
 
-const InputNumber = ({ stock, display, product }) => {
-  const dispatch = useDispatch();
-  const [amount, setAmount] = useContext(ProductListingContext);
+const InputNumber = ({ stock, display, product, amount, setAmount }) => {
+  const dispatch = useDispatch();  
 
   const increment = () => amount < stock && setAmount(amount + 1);
   const decrement = () => amount > 1 && setAmount(amount - 1);

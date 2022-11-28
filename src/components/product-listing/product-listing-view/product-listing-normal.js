@@ -1,16 +1,19 @@
 import { Button, Divider, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import NextLink from "next/link";
+import Router, { useRouter } from "next/router";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
 import { AuthContext } from "../../../contexts/auth-context";
+import { ProductListingContext } from "./product-listing-view";
 
 const ProductListingNormal = (props) => {
-  const auth = useContext(AuthContext);
-  const link = ROUTE.PRODUCTS_DETAIL + id;
+  const router = useRouter();
+  const auth = useContext(AuthContext);  
   const {
     id,
     title,
+    brand,
     description,
     price,
     stock,
@@ -20,6 +23,12 @@ const ProductListingNormal = (props) => {
     thumbnail,
     images,
   } = props;
+  const link = ROUTE.PRODUCTS_DETAIL + id;
+  const [amount, setAmount] = useContext(ProductListingContext);
+  ``
+  const goToPage = () => {
+    router.push({ pathname: link });
+  };
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Grid
@@ -34,6 +43,8 @@ const ProductListingNormal = (props) => {
       <InputNumber
         product={props}
         stock={stock}
+        amount={amount}
+        setAmount={setAmount}
         display={{
           display: {
             xs: "none",
@@ -52,7 +63,7 @@ const ProductListingNormal = (props) => {
         justifyContent: "center",
       }}
     >
-      <Button href={link} variant="outlined" sx={{}}>
+      <Button variant="outlined" onClick={goToPage}>
         Show product
       </Button>
     </Grid>
