@@ -3,11 +3,18 @@ import { Grid, IconButton, Typography, Box, Container } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const BottomFooter = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <Box
       sx={{
         backgroundColor: "primary.gray",
-        mt: 3
+        mt: 3,
       }}
     >
       <Container maxWidth="xl">
@@ -33,6 +40,7 @@ const BottomFooter = () => {
           </Box>
           <Box gridColumn="span 2">
             <IconButton
+              onClick={scrollToTop}
               variant="contained"
               sx={{
                 backgroundColor: "primary.main",

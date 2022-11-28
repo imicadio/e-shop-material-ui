@@ -14,6 +14,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
+      category: 'laptops'
     },
     {
       title: "Smartphones",
@@ -22,6 +23,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
+      category: 'smartphones'
     },
     {
       title: "Skincare",
@@ -30,6 +32,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       navigation: true,
       loop: true,
       perView: itemsPerView,
+      category: 'skincare'
     },
   ];
 
@@ -72,6 +75,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
             {renderTabs}
           </Tabs>
           <Button
+            onClick={() => {}}
             sx={{
               ml: "auto",
             }}
