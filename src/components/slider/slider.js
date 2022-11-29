@@ -19,7 +19,7 @@ const Slider = ({
   customOptions,
   perView,
 }) => {
-  const { isMobile } = useMediaQuery((theme) => theme.breakpoints.down("sm"), {
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"), {
     defaultMatches: true,
     noSsr: false,
   });
@@ -37,7 +37,7 @@ const Slider = ({
       : false,
     ...customOptions,
     ...perView,
-    spaceBetween: 30,
+    spaceBetween: 30,   
   };
 
   const renderSlides =
@@ -49,6 +49,8 @@ const Slider = ({
         ))
       : null;
 
+  console.log(isMobile);
+
   const renderNavigation = !isMobile && navigation && (
     <React.Fragment>
       <div onClick={() => swiperRef.current.swiper.slidePrev()}></div>
@@ -58,7 +60,13 @@ const Slider = ({
 
   return (
     <React.Fragment>
-      <Swiper {...swiperParams} ref={swiperRef} style={{ width: "100%" }}>
+      <Swiper
+        {...swiperParams}
+        ref={swiperRef}
+        style={{
+          width: "100%",
+        }}
+      >
         {renderSlides}
       </Swiper>
       {renderNavigation}

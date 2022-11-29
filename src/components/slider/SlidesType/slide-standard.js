@@ -10,7 +10,7 @@ const SlideStandard = ({ slide }) => {
   const [amount, setAmount] = useState(1);
 
   const renderTitle = auth.isAuthenticated ? (
-    <Grid container fullwidth>
+    <Grid container>
       <Grid item xs>
         <Typography variant="h6">{slide.title}</Typography>
         <Typography variant="body1">{slide.category}</Typography>

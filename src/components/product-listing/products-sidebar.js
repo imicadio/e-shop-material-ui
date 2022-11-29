@@ -205,7 +205,6 @@ const ProductsSidebar = ({ onClose, open }) => {
     const routerParam = router.query;
     
     if(routerParam) {
-      console.log(routerParam.category)
       handleSelect('category', routerParam.category.toUpperCase());
     }
   }, [])
