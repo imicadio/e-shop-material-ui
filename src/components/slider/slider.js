@@ -49,8 +49,6 @@ const Slider = ({
         ))
       : null;
 
-  console.log(isMobile);
-
   const renderNavigation = !isMobile && navigation && (
     <React.Fragment>
       <div onClick={() => swiperRef.current.swiper.slidePrev()}></div>

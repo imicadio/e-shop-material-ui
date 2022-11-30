@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import NextLink from "next/link";
 import {
@@ -21,8 +21,11 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import Search from "../../search/search";
 import { useSelector } from "react-redux";
 import { selectProducts } from "../../../redux/slice/listProductSlice";
+import CartHeader from "../../cart/cart-header";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
+  const modalBackground = useRef(null);
+  const [isOpenCart, setIsOpenCart] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
@@ -79,6 +82,21 @@ const HeaderContent = ({ open, setActiveMenu }) => {
       console.error(err);
     }
   };
+
+  const handleBtnCart = () => {
+    setIsOpenCart(true);
+    // console.log(modalBackground.current);
+  };
+
+  const renderOpenCart = isOpenCart ? (
+    <CartHeader isOpenCart={isOpenCart} setIsOpenCart={setIsOpenCart} ref={modalBackground} />
+  ) : null;
+
+  // useEffect(() => {
+  //   if(modalBackground.current) {
+  //     modalBackground.current.style.background = "black"
+  //   }
+  // }, [isOpenCart])
 
   const renderSearchResults =
     filteredData.length > 0 ? (
@@ -164,11 +182,55 @@ const HeaderContent = ({ open, setActiveMenu }) => {
     } else if (auth.isAuthenticated)
       return (
         <>
-          <IconButton aria-label="shopping-cart">
-            <Badge badgeContent={4} color="primary">
-              <ShoppingBasketIcon fontSize="large" />
-            </Badge>
-          </IconButton>
+          <Box
+            sx={{
+              position: "relative",
+
+              // '&:hover > *:last-child': {
+              //   width: '100vw',
+              // }
+            }}
+          >
+            <Box
+              sx={{
+                position: "relative",
+                background: isOpenCart ? "white" : null,
+                display: "flex",
+                height: "100%",
+                alignItems: "center",
+                p: 0,
+                px: 2,
+                zIndex: 4,
+                cursor: "pointer",
+              }}
+              onClick={handleBtnCart}
+            >
+              <Typography variant="body1" component="p" fontWeight={600}>
+                Cart
+              </Typography>
+              <IconButton
+                aria-label="shopping-cart"
+                sx={{
+                  height: "100%",
+                }}
+              >
+                <Badge badgeContent={4} color="primary">
+                  <ShoppingBasketIcon fontSize="large" />
+                </Badge>
+              </IconButton>
+            </Box>
+            <Box
+              sx={{            
+                position: "absolute",
+                zIndex: 3,
+                right: 0,
+                overflow: "hidden",
+                // transition: 'width 2s, background-color 2s, transform 2s',
+              }}
+            >
+              {renderOpenCart}
+            </Box>
+          </Box>
           <Button
             variant="contained"
             sx={{
