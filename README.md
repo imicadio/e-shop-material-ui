@@ -102,7 +102,7 @@ Project has 3 users:
 ## Contact
 
 <br/>
-LinkedIn: [https://www.linkedin.com/in/michal-jeszko/](https://www.linkedin.com/in/michal-jeszko/)
+LinkedIn: [Michał Jeszko](https://www.linkedin.com/in/michal-jeszko/)
 <br/>
 e-mail: mrjesio@gmail.com
 
@@ -110,7 +110,7 @@ e-mail: mrjesio@gmail.com
 
 <!-- Links -->
 ## Links
-Project link for live preview: []()
+Project link for live preview: [https://e-shop-material-ui.vercel.app/](https://e-shop-material-ui.vercel.app/)
 
 Default user:
 
