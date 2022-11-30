@@ -84,6 +84,7 @@ Project has 3 users:
 - [x] Autch and autchenticated
   - [x] Show action add to cart
   - [x] Header
+  - [x] Pages
 - [ ] Responsive
   - [x] Menu
   - [x] Filters
