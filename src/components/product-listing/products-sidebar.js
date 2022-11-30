@@ -108,6 +108,9 @@ const ProductsSidebar = ({ onClose, open }) => {
     const value = e.target.value;
     const valueIndex = selectedFilter[name].indexOf(value);
 
+    console.log(name)
+    console.log(selectedFilter)
+
     if (valueIndex >= 0) {
       return handleSelect(
         name,
@@ -203,11 +206,9 @@ const ProductsSidebar = ({ onClose, open }) => {
 
   useEffect(() => {    
     const routerParam = router.query;
-
-    console.log(routerParam)
     
-    if(routerParam.length) {
-      handleSelect('category', routerParam.category.toUpperCase());
+    if(Object.keys(routerParam).length) {
+      handleSelect('category', [routerParam.category.toUpperCase()]);
     }
   }, [])
 
