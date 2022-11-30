@@ -34,6 +34,8 @@
 
 <!-- ABOUT THE PROJECT -->
 
+
+
 ## About Project
 
 Online shop. Join us and buy your favorite products with us!
@@ -53,6 +55,8 @@ Project has 3 users:
 - user
 - person not logged in
 
+
+
 ### Built With
 
 - [React](https://reactjs.org/)
@@ -63,6 +67,8 @@ Project has 3 users:
 - [Swiper](https://swiperjs.com/)
 
 <!-- Implementation -->
+
+
 
 ## Implementation
 
@@ -75,20 +81,22 @@ Project has 3 users:
   - [x] Brands
   - [x] Search
 - [x] Tabs slider
-- Autch and autchenticated
+- [x] Autch and autchenticated
   - [x] Show action add to cart
   - [x] Header
-- [] Responsive
+- [ ] Responsive
   - [x] Menu
   - [x] Filters
   - [x] Tabs
   - [x] Sliders
-- [] Cart
+- [ ] Cart
   - [x] Add to cart
-  - [] Discount code
-  - [] CRUD
+  - [ ] Discount code
+  - [ ] CRUD
 
 <!-- Contact -->
+
+
 
 ## Contact
 
@@ -97,8 +105,10 @@ LinkedIn: [https://www.linkedin.com/in/michal-jeszko/](https://www.linkedin.com/
 <br/>
 e-mail: mrjesio@gmail.com
 
-<!-- Links -->
 
+
+<!-- Links -->
+## Links
 Project link for live preview: []()
 
 Default user:
