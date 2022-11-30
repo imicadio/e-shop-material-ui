@@ -1,17 +1,19 @@
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { auth, ENABLE_AUTH } from '../lib/auth';
+import { createContext, useContext, useEffect, useReducer, useRef } from "react";
+import PropTypes from "prop-types";
+import { auth, ENABLE_AUTH } from "../lib/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { firebaseAuth } from "../lib/firebase";
 
 const HANDLERS = {
-  INITIALIZE: 'INITIALIZE',
-  SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT'
+  INITIALIZE: "INITIALIZE",
+  SIGN_IN: "SIGN_IN",
+  SIGN_OUT: "SIGN_OUT",
 };
 
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
-  user: null
+  user: null,
 };
 
 const handlers = {
@@ -20,18 +22,16 @@ const handlers = {
 
     return {
       ...state,
-      ...(
-        // if payload (user) is provided, then is authenticated
-        user
-          ? ({
+      ...// if payload (user) is provided, then is authenticated
+      (user
+        ? {
             isAuthenticated: true,
             isLoading: false,
-            user
-          })
-          : ({
-            isLoading: false
-          })
-      )
+            user,
+          }
+        : {
+            isLoading: false,
+          }),
     };
   },
   [HANDLERS.SIGN_IN]: (state, action) => {
@@ -40,21 +40,20 @@ const handlers = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
   },
   [HANDLERS.SIGN_OUT]: (state) => {
     return {
       ...state,
       isAuthenticated: false,
-      user: null
+      user: null,
     };
-  }
+  },
 };
 
-const reducer = (state, action) => (
-  handlers[action.type] ? handlers[action.type](state, action) : state
-);
+const reducer = (state, action) =>
+  handlers[action.type] ? handlers[action.type](state, action) : state;
 
 // The role of this context is to propagate authentication state through the App tree.
 
@@ -75,14 +74,14 @@ export const AuthProvider = (props) => {
 
     // Check if auth has been skipped
     // From sign-in page we may have set "skip-auth" to "true"
-    const authSkipped = globalThis.sessionStorage.getItem('skip-auth') === 'true';
+    const authSkipped = globalThis.sessionStorage.getItem("skip-auth") === "true";
 
     if (authSkipped) {
       const user = {};
 
       dispatch({
         type: HANDLERS.INITIALIZE,
-        payload: user
+        payload: user,
       });
       return;
     }
@@ -94,32 +93,44 @@ export const AuthProvider = (props) => {
 
       dispatch({
         type: HANDLERS.INITIALIZE,
-        payload: user
+        payload: user,
       });
       return;
     }
 
     try {
       // Check if user is authenticated
-      const isAuthenticated = await auth.isAuthenticated();
+      onAuthStateChanged(firebaseAuth, (user) => {
+        if (user) {
+          fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
+            .then((response) => response.json())
+            .then((data) => {
+              // console.log(user.uid);
+              const isUser = Object.entries(data).filter(([key, value]) => value.id === user.uid);
+              if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
 
-      if (isAuthenticated) {
-        // Get user from your database
-        const user = {};
+              const payloadUser = {
+                id: user.uid,
+                role: isUser[0][1].role,
+              };
 
-        dispatch({
-          type: HANDLERS.INITIALIZE,
-          payload: user
-        });
-      } else {
-        dispatch({
-          type: HANDLERS.INITIALIZE
-        });
-      }
+              dispatch({
+                type: HANDLERS.INITIALIZE,
+                payload: payloadUser,
+              });
+            })
+            .catch((error) => console.error(error));
+        } else {
+          // console.log('User missing please login')
+          dispatch({
+            type: HANDLERS.INITIALIZE,
+          });
+        }
+      });
     } catch (err) {
       console.error(err);
       dispatch({
-        type: HANDLERS.INITIALIZE
+        type: HANDLERS.INITIALIZE,
       });
     }
   };
@@ -128,16 +139,48 @@ export const AuthProvider = (props) => {
     initialize().catch(console.error);
   }, []);
 
-  const signIn = (user) => {
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
+  const signIn = (userData, email, password) => {
+    signInWithEmailAndPassword(firebaseAuth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
+            .then((response) => response.json())
+            .then((data) => {
+              // console.log(user.uid);
+              const isUser = Object.entries(data).filter(([key, value]) => value.email === email);
+              if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
+
+              const payloadUser = {
+                id: user.uid,
+                role: isUser[0][1].role,
+              };
+
+              dispatch({
+                type: HANDLERS.SIGN_IN,
+                payload: payloadUser,
+              });
+            })
+            .catch((error) => console.error(error));
+
+        
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });    
   };
 
-  const signOut = () => {
+  const logout = () => {
+    signOut(firebaseAuth)
+      .then(() => {
+        console.success("Signout successfully.");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+
     dispatch({
-      type: HANDLERS.SIGN_OUT
+      type: HANDLERS.SIGN_OUT,
     });
   };
 
@@ -146,7 +189,7 @@ export const AuthProvider = (props) => {
       value={{
         ...state,
         signIn,
-        signOut
+        logout,
       }}
     >
       {children}
@@ -155,7 +198,7 @@ export const AuthProvider = (props) => {
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const AuthConsumer = AuthContext.Consumer;

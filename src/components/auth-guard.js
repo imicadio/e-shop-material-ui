@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import { useAuthContext } from '../contexts/auth-context';
 
 export const AuthGuard = (props) => {
-  const { children } = props;
+  const { children, pageProps } = props;
   const router = useRouter();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, user } = useAuthContext();
   const ignore = useRef(false);
   const [checked, setChecked] = useState(false);
+
+  // console.log("pageProps: ", pageProps)
 
   // Only do authentication check on component mount.
   // This flow allows you to manually redirect the user after sign-out, otherwise this will be
@@ -27,7 +29,7 @@ export const AuthGuard = (props) => {
 
       ignore.current = true;
 
-      if (!isAuthenticated) {
+      if (pageProps.userTypes.indexOf(user.role) === -1) {
         console.log('Not authenticated, redirecting');
         router
           .replace({

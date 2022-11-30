@@ -1,116 +1,64 @@
-import Head from 'next/head';
-import { Box, Container, Grid } from '@mui/material';
-import { Budget } from '../components/dashboard/budget';
-import { LatestOrders } from '../components/dashboard/latest-orders';
-import { LatestProducts } from '../components/dashboard/latest-products';
-import { Sales } from '../components/dashboard/sales';
-import { TasksProgress } from '../components/dashboard/tasks-progress';
-import { TotalCustomers } from '../components/dashboard/total-customers';
-import { TotalProfit } from '../components/dashboard/total-profit';
-import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
-import { DashboardLayout } from '../components/dashboard-layout';
+import { Box, Container, Typography, Tabs, Tab, Button, useMediaQuery } from "@mui/material";
+import React, { useState } from "react";
+import Slider from "../components/slider/slider";
+import SliderPromotionTabs from "../components/slider/slider-promotion-tabs/slider-promotion-tabs";
+import TabPanel from "../components/tab-panel/tab-panel";
+import { useProducts } from "../hooks/useProducts";
+import { MainLayout } from "../layout/layout";
 
-const Page = () => (
-  <>
-    <Head>
-      <title>
-        Dashboard | Material Kit
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth={false}>
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <Budget />
-          </Grid>
-          <Grid
-            item
-            xl={3}
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <TotalCustomers />
-          </Grid>
-          <Grid
-            item
-            xl={3}
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <TasksProgress />
-          </Grid>
-          <Grid
-            item
-            xl={3}
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <TotalProfit sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <Sales />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <TrafficByDevice sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <LatestProducts sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <LatestOrders />
-          </Grid>
-        </Grid>
+const Page = () => {
+  const itemsPerView = 4;
+  const [isLoading, slides] = useProducts(3);
+  const [isLoading1, slides1] = useProducts(30);
+
+  return (
+    <>
+      <Box
+        sx={{
+          mt: {
+            lg: -5,
+          },
+        }}
+      >
+        <Slider slides={slides} type="hero-slider" navigation />
+      </Box>
+      <Container maxWidth="xl">
+        <SliderPromotionTabs
+          slider={slides1}
+          itemsPerView={{
+            slidesPerView: 1,
+            breakpoints: {
+              600: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+              },
+
+              960: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+              },
+
+              1280: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
+            }
+          }}
+        />
       </Container>
-    </Box>
-  </>
-);
+    </>
+  );
+};
 
-Page.getLayout = (page) => (
-  <DashboardLayout>
-    {page}
-  </DashboardLayout>
-);
+Page.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
 export default Page;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      protected: false,
+      userTypes: [],
+    },
+  };
+}
