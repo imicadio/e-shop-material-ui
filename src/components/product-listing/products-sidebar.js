@@ -203,8 +203,10 @@ const ProductsSidebar = ({ onClose, open }) => {
 
   useEffect(() => {    
     const routerParam = router.query;
+
+    console.log(routerParam)
     
-    if(routerParam) {
+    if(routerParam.length) {
       handleSelect('category', routerParam.category.toUpperCase());
     }
   }, [])
