@@ -102,7 +102,7 @@ export const AuthProvider = (props) => {
       // Check if user is authenticated
       onAuthStateChanged(firebaseAuth, (user) => {
         if (user) {
-          fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
+          fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json")
             .then((response) => response.json())
             .then((data) => {
               // console.log(user.uid);
@@ -144,7 +144,7 @@ export const AuthProvider = (props) => {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json")
+        fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json")
             .then((response) => response.json())
             .then((data) => {
               // console.log(user.uid);

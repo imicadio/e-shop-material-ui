@@ -14,7 +14,7 @@ const Page = ({ product }) => {
 };
 
 export async function getStaticPaths() {
-  const res = await fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS + ".json");
+  const res = await fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS + ".json");
   const products = await res.json();
 
   // console.log(products);
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const res = await fetch(
-    `${process.env.REACT_APP_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS_DETAIL + params.id}.json`
+    `${process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS_DETAIL + params.id}.json`
   );
   const product = await res.json();
 

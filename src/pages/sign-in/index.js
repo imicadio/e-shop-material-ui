@@ -75,7 +75,7 @@ const Page = () => {
 
       const createUserRole = async (postData) => {
         try {
-          const response = await fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL + "/user.json", {
+          const response = await fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
