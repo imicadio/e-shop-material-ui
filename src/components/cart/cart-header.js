@@ -1,5 +1,5 @@
 import { Box, Button, Grid } from "@mui/material";
-import React, { useEffect, forwardRef, useRef } from "react";
+import React, { useEffect, forwardRef, useRef, useImperativeHandle } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   CALCULATE_SUBTOTAL,
@@ -29,6 +29,10 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
 
     delay;
   };
+
+  // useImperativeHandle(ref, () => ({
+  //   closeModal,
+  // }));
 
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL());

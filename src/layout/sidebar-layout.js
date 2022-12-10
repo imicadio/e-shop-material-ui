@@ -18,6 +18,7 @@ export const SidebarLayout = (props) => {
             position: {
               xs: "absolute",
               lg: "relative",
+              zIndex: 2,
             },
           }}
         >

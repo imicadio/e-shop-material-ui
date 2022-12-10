@@ -31,6 +31,8 @@ const HeaderContent = ({ open, setActiveMenu }) => {
     noSsr: false,
   });
 
+  const refCart = useRef(null);
+
   const auth = useContext(AuthContext);
 
   // SEARCH
@@ -84,6 +86,8 @@ const HeaderContent = ({ open, setActiveMenu }) => {
   };
 
   const handleBtnCart = () => {
+    // console.log(modalBackground.current);
+    // if (isOpenCart) return modalBackground.current.closeModal();
     setIsOpenCart(true);
     // console.log(modalBackground.current);
   };
@@ -220,7 +224,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               </IconButton>
             </Box>
             <Box
-              sx={{            
+              sx={{
                 position: "absolute",
                 zIndex: 3,
                 right: 0,

@@ -50,7 +50,6 @@ const CartHeaderTop = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Divider />
         </Box>
       </Grid>
       <Grid
