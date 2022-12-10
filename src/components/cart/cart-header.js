@@ -13,13 +13,17 @@ import CartHeaderTop from "./cart-header-top";
 
 const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
   const dispatch = useDispatch();
+  const cartOverlay = useRef(null);
   const cartWrapper = useRef(null);
   const cartItems = useSelector(selectCartItems);
   const totalQuantity = useSelector(selectCartTotalQuantity);
   const totalAmount = useSelector(selectCartTotalAmount);
 
   const closeModal = () => {
-    ref.current.style.animationName = "overlayHide";
+
+    console.log('ref: ', ref.current)
+
+    cartOverlay.current.style.animationName = "overlayHide";
     cartWrapper.current.style.animationName = "slideIn";
 
     const delay = setTimeout(() => {
@@ -30,9 +34,9 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
     delay;
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   closeModal,
-  // }));
+  useImperativeHandle(ref, () => ({
+    closeModal,
+  }));
 
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL());
@@ -69,7 +73,7 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
             },
           },
         }}
-        ref={ref}
+        ref={cartOverlay}
         onClick={closeModal}
       ></Box>
       <Box

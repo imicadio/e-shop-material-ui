@@ -86,21 +86,13 @@ const HeaderContent = ({ open, setActiveMenu }) => {
   };
 
   const handleBtnCart = () => {
-    // console.log(modalBackground.current);
-    // if (isOpenCart) return modalBackground.current.closeModal();
+    if (isOpenCart) return modalBackground.current.closeModal();
     setIsOpenCart(true);
-    // console.log(modalBackground.current);
   };
 
   const renderOpenCart = isOpenCart ? (
     <CartHeader isOpenCart={isOpenCart} setIsOpenCart={setIsOpenCart} ref={modalBackground} />
   ) : null;
-
-  // useEffect(() => {
-  //   if(modalBackground.current) {
-  //     modalBackground.current.style.background = "black"
-  //   }
-  // }, [isOpenCart])
 
   const renderSearchResults =
     filteredData.length > 0 ? (
