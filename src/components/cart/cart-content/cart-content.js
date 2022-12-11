@@ -1,12 +1,30 @@
-import { Box, Checkbox, Divider, Grid, IconButton, Typography, Tooltip } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  Grid,
+  IconButton,
+  Typography,
+  Tooltip,
+  TextField,
+  Button,
+} from "@mui/material";
 import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { REMOVE_FROM_CART } from "../../../redux/slice/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { discountPrice } from "../../../helpers/discount";
+import {
+  PROMO_CODE,
+  REMOVE_FROM_CART,
+  selectCartDiscount,
+  selectCartPromoCode,
+} from "../../../redux/slice/cartSlice";
 import AlertDialog from "../../dialog/dialog";
 import CartProductListing from "./cart-product-listing";
 
 const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick }) => {
   const dispatch = useDispatch();
+  const discount = useSelector(selectCartDiscount);
+  const [promoCode, setPromoCode] = useState(useSelector(selectCartPromoCode));
   const [openAlert, setOpenAlert] = useState({
     isAlert: false,
     item: null,
@@ -20,6 +38,13 @@ const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick 
     }));
   };
 
+  const handlePromoCode = (event) => {
+    const inputCode = event.target.value.trim();
+    setPromoCode(inputCode);
+  };
+
+  const submitPromoCode = () => dispatch(PROMO_CODE(promoCode));
+
   const handleConfirm = (isConfirmed) => {
     if (isConfirmed) {
       dispatch(REMOVE_FROM_CART({ product: openAlert.item }));
@@ -29,6 +54,23 @@ const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick 
       item: null,
     }));
   };
+
+  const renderTotalAmount =
+    discount > 0 ? (
+      <Typography variant="body1" component="p" fontWeight={600}>
+        Total amount:{" "}
+        <Typography variant="body2" component="span" sx={{
+          textDecoration: 'line-through'
+        }}>
+          ${totalAmount}
+        </Typography>{" "}
+        ${discountPrice(totalAmount, discount)}
+      </Typography>
+    ) : (
+      <Typography variant="body1" component="p" fontWeight={600}>
+        Total amount: ${totalAmount}
+      </Typography>
+    );
 
   return (
     <>
@@ -67,12 +109,28 @@ const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick 
             backgroundColor: "primary.lightGray",
           }}
         >
-          <Typography variant="body1" component="p" fontWeight={600}>
-            Total amount: ${totalAmount}
-          </Typography>
+          {renderTotalAmount}
           <Typography variant="body1" component="p" fontWeight={600} mt={1}>
             Total quantity: {totalQuantity}
           </Typography>
+          <Divider
+            sx={{
+              mt: 2,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Promo code"
+            name="promoCode"
+            onChange={handlePromoCode}
+            type="text"
+            value={promoCode}
+            variant="outlined"
+            sx={{ mt: 3 }}
+          />
+          <Button variant="contained" sx={{ width: 1 }} onClick={submitPromoCode}>
+            Apply
+          </Button>
         </Grid>
       </Grid>
       <AlertDialog
