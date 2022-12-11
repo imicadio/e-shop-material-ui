@@ -1,5 +1,5 @@
 import { Box, Button, Grid } from "@mui/material";
-import React, { useEffect, forwardRef, useRef, useImperativeHandle } from "react";
+import React, { useState, useEffect, forwardRef, useRef, useImperativeHandle } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   CALCULATE_SUBTOTAL,
@@ -7,11 +7,16 @@ import {
   selectCartItems,
   selectCartTotalQuantity,
   selectCartTotalAmount,
+  REMOVE_FROM_CART,
 } from "../../redux/slice/cartSlice";
 import CartContent from "./cart-content/cart-content";
 import CartHeaderTop from "./cart-header-top";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AlertDialog from "../dialog/dialog";
 
 const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [selected, setSelected] = useState([]);
   const dispatch = useDispatch();
   const cartOverlay = useRef(null);
   const cartWrapper = useRef(null);
@@ -19,9 +24,11 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
   const totalQuantity = useSelector(selectCartTotalQuantity);
   const totalAmount = useSelector(selectCartTotalAmount);
 
-  const closeModal = () => {
+  // DIALOG
+  const handleOpenAlert = () => setOpenAlert(!openAlert);
 
-    console.log('ref: ', ref.current)
+  const closeModal = () => {
+    console.log("ref: ", ref.current);
 
     cartOverlay.current.style.animationName = "overlayHide";
     cartWrapper.current.style.animationName = "slideIn";
@@ -42,6 +49,70 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
     dispatch(CALCULATE_SUBTOTAL());
     dispatch(CALCULATE_TOTAL_QUANTITY());
   }, [cartItems, dispatch]);
+
+  // SELECTED START
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = cartItems.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
+  const renderResetFilters =
+    selected.length > 0 ? (
+      <Button
+        startIcon={<DeleteIcon />}
+        onClick={handleOpenAlert}
+        sx={{
+          p: 0,
+          "&:hover": {
+            background: "transparent",
+            color: "secondary.main",
+            textDecoration: "underline",
+          },
+        }}
+      >
+        Delete selected item(s)
+      </Button>
+    ) : null;
+
+  // SELECTED END
+
+  const handleConfirm = (isConfirmed) => {
+    if (isConfirmed) {
+      cartItems.map((item) => {
+        selected.indexOf(item.id) !== -1 ? dispatch(REMOVE_FROM_CART({ product: item })) : null;
+      });
+
+      // dispatch(REMOVE_FROM_CART({ product: selectedRows }));
+    }
+    setOpenAlert(!openAlert);
+  };
+
+  //END DIALOG
 
   return (
     <>
@@ -115,23 +186,39 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
             height: "70px",
           }}
         >
-          <CartHeaderTop />
+          <CartHeaderTop handleSelectAllClick={handleSelectAllClick} />
         </Box>
-        <CartContent items={cartItems} totalQuantity={totalQuantity} totalAmount={totalAmount} />
+        <CartContent
+          items={cartItems}
+          selected={selected}
+          handleClick={handleClick}
+          totalQuantity={totalQuantity}
+          totalAmount={totalAmount}
+        />
         <Grid
           container
           sx={{
             backgroundColor: "primary.gray",
-            height: "70px",
           }}
         >
-          <Grid item xs={8} p={2}></Grid>
+          <Grid
+            item
+            xs={8}
+            p={2}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {renderResetFilters}
+          </Grid>
           <Grid item xs={4} p={2}>
             <Button variant="contained" sx={{ width: 1 }}>
               Checkout
             </Button>
           </Grid>
         </Grid>
+        <AlertDialog openAlert={openAlert} handleConfirm={handleConfirm} />
       </Box>
     </>
   );

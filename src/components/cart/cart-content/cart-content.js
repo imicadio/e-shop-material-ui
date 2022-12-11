@@ -5,7 +5,7 @@ import { REMOVE_FROM_CART } from "../../../redux/slice/cartSlice";
 import AlertDialog from "../../dialog/dialog";
 import CartProductListing from "./cart-product-listing";
 
-const CartContent = ({ items, totalAmount, totalQuantity }) => {
+const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick }) => {
   const dispatch = useDispatch();
   const [openAlert, setOpenAlert] = useState({
     isAlert: false,
@@ -37,11 +37,26 @@ const CartContent = ({ items, totalAmount, totalQuantity }) => {
         sx={{
           display: "flex",
           flex: 1,
+          overflow: "hidden",
         }}
       >
-        <Grid item xs={8} p={2}>
+        <Grid
+          item
+          xs={8}
+          p={2}
+          sx={{
+            overflowY: "auto",
+            height: "100%",
+          }}
+        >
           {items.map((item, id) => (
-            <CartProductListing key={id} item={item} handleOpenAlert={handleOpenAlert} />
+            <CartProductListing
+              key={id}
+              item={item}
+              handleClick={handleClick}
+              selected={selected}
+              handleOpenAlert={handleOpenAlert}
+            />
           ))}
         </Grid>
         <Grid
@@ -62,7 +77,7 @@ const CartContent = ({ items, totalAmount, totalQuantity }) => {
       </Grid>
       <AlertDialog
         openAlert={openAlert.isAlert}
-        handleOpenAlert={handleOpenAlert}
+        // handleOpenAlert={handleOpenAlert}
         handleConfirm={handleConfirm}
       />
     </>

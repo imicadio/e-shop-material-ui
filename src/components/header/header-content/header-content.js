@@ -19,19 +19,25 @@ import { ROUTE } from "../../../shared/routing";
 import { AuthContext } from "../../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import Search from "../../search/search";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../../redux/slice/listProductSlice";
 import CartHeader from "../../cart/cart-header";
+import {
+  CALCULATE_TOTAL_QUANTITY,
+  selectCartItems,
+  selectCartTotalQuantity,
+} from "../../../redux/slice/cartSlice";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const modalBackground = useRef(null);
+  const dispatch = useDispatch();
   const [isOpenCart, setIsOpenCart] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
-
-  const refCart = useRef(null);
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+  const cartItems = useSelector(selectCartItems);
 
   const auth = useContext(AuthContext);
 
@@ -90,9 +96,36 @@ const HeaderContent = ({ open, setActiveMenu }) => {
     setIsOpenCart(true);
   };
 
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, [cartItems]);
+
   const renderOpenCart = isOpenCart ? (
     <CartHeader isOpenCart={isOpenCart} setIsOpenCart={setIsOpenCart} ref={modalBackground} />
   ) : null;
+
+  const renderBadge =
+    cartTotalQuantity > 0 ? (
+      <IconButton
+        aria-label="shopping-cart"
+        sx={{
+          height: "100%",
+        }}
+      >
+        <Badge badgeContent={cartTotalQuantity} color="primary">
+          <ShoppingBasketIcon fontSize="large" />
+        </Badge>
+      </IconButton>
+    ) : (
+      <IconButton
+        aria-label="shopping-cart"
+        sx={{
+          height: "100%",
+        }}
+      >
+        <ShoppingBasketIcon fontSize="large" />
+      </IconButton>
+    );
 
   const renderSearchResults =
     filteredData.length > 0 ? (
@@ -199,21 +232,12 @@ const HeaderContent = ({ open, setActiveMenu }) => {
                 zIndex: 4,
                 cursor: "pointer",
               }}
-              onClick={handleBtnCart}
+              onClick={cartTotalQuantity > 0 ? handleBtnCart : null}
             >
               <Typography variant="body1" component="p" fontWeight={600}>
                 Cart
               </Typography>
-              <IconButton
-                aria-label="shopping-cart"
-                sx={{
-                  height: "100%",
-                }}
-              >
-                <Badge badgeContent={4} color="primary">
-                  <ShoppingBasketIcon fontSize="large" />
-                </Badge>
-              </IconButton>
+              {renderBadge}
             </Box>
             <Box
               sx={{

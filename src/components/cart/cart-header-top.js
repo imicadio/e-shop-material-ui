@@ -2,7 +2,7 @@ import { Box, Checkbox, Divider, Grid, IconButton, Typography } from "@mui/mater
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const CartHeaderTop = () => {
+const CartHeaderTop = ({ handleSelectAllClick }) => {
   return (
     <Grid
       container
@@ -22,7 +22,7 @@ const CartHeaderTop = () => {
             }}
           >
             <Grid item xs={1}>
-              <Checkbox />
+              <Checkbox onClick={(e) => handleSelectAllClick(e)} />
             </Grid>
             <Grid p={2} item xs={2}>
               <Typography variant="body1" component="p" fontWeight={600}>
@@ -52,11 +52,7 @@ const CartHeaderTop = () => {
           </Grid>
         </Box>
       </Grid>
-      <Grid
-        item
-        xs={4}
-        p={2}
-      ></Grid>
+      <Grid item xs={4} p={2}></Grid>
     </Grid>
   );
 };

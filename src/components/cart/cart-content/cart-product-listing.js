@@ -6,7 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useDispatch } from "react-redux";
 import { ADD_TO_CART, DECREASE_CART } from "../../../redux/slice/cartSlice";
 
-const CartProductListing = ({ item, handleOpenAlert }) => {
+const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) => {
   const dispatch = useDispatch();
   const handleIncrease = () => {
     dispatch(ADD_TO_CART({ product: item }));
@@ -17,6 +17,9 @@ const CartProductListing = ({ item, handleOpenAlert }) => {
     }
     dispatch(DECREASE_CART({ product: item }));
   };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isItemSelected = isSelected(item.id);
 
   return (
     <Box>
@@ -29,7 +32,7 @@ const CartProductListing = ({ item, handleOpenAlert }) => {
         }}
       >
         <Grid item xs={1}>
-          <Checkbox />
+          <Checkbox checked={isItemSelected} onClick={(event) => handleClick(event, item.id)} />
         </Grid>
         <Grid p={2} item xs={2}>
           <img

@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AlertDialog({ openAlert, handleOpenAlert, handleConfirm }) {
+export default function AlertDialog({ openAlert, handleConfirm }) {
   return (
     <div>
       <Dialog
