@@ -2,10 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  cartItems: (typeof window !== "undefined") && localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
+  cartItems:
+    typeof window !== "undefined" && localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [],
   cartTotalQuantity: 0,
   cartTotalAmount: 0,
   previousURL: "",
+  promoCode:
+    typeof window !== "undefined" && localStorage.getItem("promoCode")
+      ? JSON.parse(localStorage.getItem("promoCode"))
+      : "",
+  promoCodeList: ["MAJKEL20"],
+  discount:
+    typeof window !== "undefined" && localStorage.getItem("discountAmount")
+      ? JSON.parse(localStorage.getItem("discountAmount"))
+      : "",
 };
 
 const cartSlice = createSlice({
@@ -107,6 +119,24 @@ const cartSlice = createSlice({
     SAVE_URL: (state, action) => {
       state.previousURL = action.payload;
     },
+
+    PROMO_CODE: (state, action) => {
+      const tmpAction = action.payload;
+
+      if (state.promoCodeList.includes(tmpAction)) {
+        state.discount = 20;
+        state.promoCode = tmpAction;
+        localStorage.setItem("promoCode", JSON.stringify(state.promoCode));
+        localStorage.setItem("discountAmount", JSON.stringify(state.discount));
+        toast.info(`Your code is activate`, {
+          position: "top-left",
+        });
+      } else {
+        toast.info(`Your code is inactivate`, {
+          position: "top-left",
+        });
+      }
+    },
   },
 });
 
@@ -118,10 +148,13 @@ export const {
   CALCULATE_SUBTOTAL,
   CALCULATE_TOTAL_QUANTITY,
   SAVE_URL,
+  PROMO_CODE,
 } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;
 export const selectCartTotalAmount = (state) => state.cart.cartTotalAmount;
+export const selectCartDiscount = (state) => state.cart.discount;
+export const selectCartPromoCode = (state) => state.cart.promoCode;
 
 export default cartSlice.reducer;

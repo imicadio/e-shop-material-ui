@@ -6,24 +6,50 @@ import { ProductListingContext } from "./product-listing-view";
 import { useBrutto } from "../../../hooks/useBrutto";
 import { useTotalPrice } from "../../../hooks/useTotalPrice";
 import { Box } from "@mui/system";
-import { Button, Divider, Grid, Rating, Typography } from "@mui/material";
+import { Button, Divider, Grid, IconButton, Rating, Typography } from "@mui/material";
 import { AuthContext } from "../../../contexts/auth-context";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useDispatch } from "react-redux";
+import { REMOVE_FROM_WISHLIST } from "../../../redux/slice/wishlistSlice";
+import { useRouter } from "next/router";
 
-const ProductListingResponsive = ({
-  id,
-  title,
-  description,
-  price,
-  stock,
-  discountPercentage,
-  rating,
-  category,
-  thumbnail,
-  images,
-}) => {
+const ProductListingResponsive = (props) => {
+  const {
+    id,
+    title,
+    description,
+    price,
+    stock,
+    discountPercentage,
+    rating,
+    category,
+    thumbnail,
+    images,
+  } = props;
+  const dispatch = useDispatch();
+  const router = useRouter();
   const auth = useContext(AuthContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
   const [amount, setAmount] = useContext(ProductListingContext);
+  const isWishlist = router.pathname === ROUTE.WISHLIST;
+
+  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: props }));
+
+  const renderWishlist = isWishlist ? (
+    <Grid
+      item
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
+      <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
+        <FavoriteIcon />
+      </IconButton>
+    </Grid>
+  ) : null;
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Box
@@ -31,9 +57,18 @@ const ProductListingResponsive = ({
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
+        justifyContent: isWishlist ? "space-between" : "flex-end",
       }}
     >
-      <InputNumber stock={stock} amount={amount} setAmount={setAmount} />
+      {renderWishlist}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <InputNumber product={props} stock={stock} amount={amount} setAmount={setAmount} />
+      </Box>
     </Box>
   ) : (
     <Box

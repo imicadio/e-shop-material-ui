@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from "@mui/material";
+import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import NextLink from "next/link";
 import Router, { useRouter } from "next/router";
@@ -6,10 +6,13 @@ import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
 import { AuthContext } from "../../../contexts/auth-context";
 import { ProductListingContext } from "./product-listing-view";
+import { useDispatch } from "react-redux";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { REMOVE_FROM_WISHLIST } from "../../../redux/slice/wishlistSlice";
 
 const ProductListingNormal = (props) => {
   const router = useRouter();
-  const auth = useContext(AuthContext);  
+  const auth = useContext(AuthContext);
   const {
     id,
     title,
@@ -25,10 +28,30 @@ const ProductListingNormal = (props) => {
   } = props;
   const link = ROUTE.PRODUCTS_DETAIL + id;
   const [amount, setAmount] = useContext(ProductListingContext);
-  ``
+  ``;
   const goToPage = () => {
     router.push({ pathname: link });
   };
+
+  const renderWishlist =
+    router.pathname === ROUTE.WISHLIST ? (
+      <Grid
+        item
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
+          <FavoriteIcon />
+        </IconButton>
+      </Grid>
+    ) : null;
+
+  const dispatch = useDispatch();
+  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: props }));
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Grid
@@ -152,6 +175,8 @@ const ProductListingNormal = (props) => {
         </Grid>
 
         {renderComponentAddToCart}
+
+        {renderWishlist}
       </Grid>
       <Divider />
     </>

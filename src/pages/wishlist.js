@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { MainLayout } from "../../layout/layout";
-import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
-import { SidebarLayout } from "../../layout/sidebar-layout";
-import ProductsSidebar from "../../components/product-listing/products-sidebar";
+import { MainLayout } from "../layout/layout";
+import Breadcrumb from "../components/breadcrumbs/breadcrumb";
+import { SidebarLayout } from "../layout/sidebar-layout";
+import ProductsSidebar from "../components/product-listing/products-sidebar";
 import {
-  FILTER_BY_SEARCH,
-  selectFilteredProducts,
-  selectSearch,
-} from "../../redux/slice/filterSlice";
+  FILTER_BY_SEARCH_WISHLIST,
+  selectSearchFilterWishlist,
+  selectSearchWishlist,
+} from "../redux/slice/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ProductListingHeader from "../../components/product-listing/product-listing-header";
-import ProductListing from "../../components/product-listing/product-listing";
-import { floorDown } from "../../helpers/numbers";
-import { Pagination } from "@mui/material";
+import ProductListingHeader from "../components/product-listing/product-listing-header";
+import ProductListing from "../components/product-listing/product-listing";
+import { floorDown } from "../helpers/numbers";
+import { Container, Pagination } from "@mui/material";
+import { selectWishlistItems } from "../redux/slice/wishlistSlice";
 
 const Page = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -21,14 +22,16 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(null);
+  const filterWishlistItems = useSelector(selectSearchFilterWishlist);
+  const wishlistItems = useSelector(selectWishlistItems);
 
-  const filteredProducts = useSelector(selectFilteredProducts);
-  const search = useSelector(selectSearch);
+  const filteredProducts = filterWishlistItems.length == 0 ? wishlistItems : filterWishlistItems;
+  const search = useSelector(selectSearchWishlist);
 
   const setListView = (value) => setViewList(value);
   const handleSearch = (event) => {
     setCurrentPage(1);
-    dispatch(FILTER_BY_SEARCH({ search: event.target.value }));
+    dispatch(FILTER_BY_SEARCH_WISHLIST({ search: event.target.value, products: wishlistItems }));
   };
   const handleSetItemsPerPage = (value) => {
     setItemsPerPage(value);
@@ -52,9 +55,7 @@ const Page = () => {
   }, [filteredProducts]);
 
   return (
-    <SidebarLayout
-      sidebar={<ProductsSidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />}
-    >
+    <Container maxWidth="xl">
       <Breadcrumb />
       <ProductListingHeader
         setListView={setListView}
@@ -91,7 +92,7 @@ const Page = () => {
           },
         }}
       />
-    </SidebarLayout>
+    </Container>
   );
 };
 
@@ -103,7 +104,7 @@ export async function getStaticProps() {
   return {
     props: {
       protected: false,
-      userTypes: [],
+      userTypes: ["user", "admin"],
     },
   };
 }

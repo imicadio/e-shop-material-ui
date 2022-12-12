@@ -17,7 +17,7 @@ import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
 import ViewDayIcon from "@mui/icons-material/ViewDay";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { inputBetweenNumber } from "../../hooks/numbers";
+import { inputBetweenNumber } from "../../helpers/numbers";
 import Search from "../search/search";
 import TuneIcon from "@mui/icons-material/Tune";
 
