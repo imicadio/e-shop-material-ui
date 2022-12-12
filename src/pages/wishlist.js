@@ -3,7 +3,11 @@ import { MainLayout } from "../layout/layout";
 import Breadcrumb from "../components/breadcrumbs/breadcrumb";
 import { SidebarLayout } from "../layout/sidebar-layout";
 import ProductsSidebar from "../components/product-listing/products-sidebar";
-import { FILTER_BY_SEARCH, selectSearch } from "../redux/slice/filterSlice";
+import {
+  FILTER_BY_SEARCH_WISHLIST,
+  selectSearchFilterWishlist,
+  selectSearchWishlist,
+} from "../redux/slice/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductListingHeader from "../components/product-listing/product-listing-header";
 import ProductListing from "../components/product-listing/product-listing";
@@ -18,14 +22,16 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(null);
+  const filterWishlistItems = useSelector(selectSearchFilterWishlist);
+  const wishlistItems = useSelector(selectWishlistItems);
 
-  const filteredProducts = useSelector(selectWishlistItems);
-  const search = useSelector(selectSearch);
+  const filteredProducts = filterWishlistItems.length == 0 ? wishlistItems : filterWishlistItems;
+  const search = useSelector(selectSearchWishlist);
 
   const setListView = (value) => setViewList(value);
   const handleSearch = (event) => {
     setCurrentPage(1);
-    dispatch(FILTER_BY_SEARCH({ search: event.target.value }));
+    dispatch(FILTER_BY_SEARCH_WISHLIST({ search: event.target.value, products: wishlistItems }));
   };
   const handleSetItemsPerPage = (value) => {
     setItemsPerPage(value);

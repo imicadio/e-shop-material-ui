@@ -6,7 +6,9 @@ const initialState = {
     typeof window !== "undefined" && localStorage.getItem("wishlistItems")
       ? JSON.parse(localStorage.getItem("wishlistItems"))
       : [],
+  filterWishlistItems: '',
   wishlistTotalQuantity: 0,
+  search: "",
 };
 
 const wishlistSlice = createSlice({
@@ -37,11 +39,35 @@ const wishlistSlice = createSlice({
 
       localStorage.setItem("wishlistItems", JSON.stringify(state.wishlistItems));
     },
+
+    FILTER_BY_SEARCH_WISHLIST(state, action) {
+      const { search, products } = action.payload;
+      state.search = search.toUpperCase();      
+
+      state.filterWishlistItems = products.filter((product) => {
+        const isArrayValid = [];
+
+        if (state.search.length > 0) {
+          if (product.title.toUpperCase().includes(state.search)) {
+            isArrayValid.push(true);
+          } else {
+            isArrayValid.push(false);
+          }
+        }
+
+        return isArrayValid.every((element) => element === true);
+      });
+
+      
+    },
   },
 });
 
-export const { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, WISHLIST_CLEAR } = wishlistSlice.actions;
+export const { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, WISHLIST_CLEAR, FILTER_BY_SEARCH_WISHLIST } =
+  wishlistSlice.actions;
 
 export const selectWishlistItems = (state) => state.wishlist.wishlistItems;
+export const selectSearchWishlist = (state) => state.wishlist.search;
+export const selectSearchFilterWishlist = (state) => state.wishlist.filterWishlistItems;
 
 export default wishlistSlice.reducer;

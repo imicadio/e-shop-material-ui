@@ -1,5 +1,6 @@
-import { Box, Divider, Grid, Rating, Typography } from "@mui/material";
+import { Box, Divider, Grid, IconButton, Rating, Typography } from "@mui/material";
 import React, { useContext } from "react";
+import Router, { useRouter } from "next/router";
 import NextLink from "next/link";
 import { ROUTE } from "../../../shared/routing";
 import InputNumber from "../../input/input-number";
@@ -7,19 +8,25 @@ import { ProductListingContext } from "./product-listing-view";
 import { useBrutto } from "../../../hooks/useBrutto";
 import { useTotalPrice } from "../../../hooks/useTotalPrice";
 import { AuthContext } from "../../../contexts/auth-context";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useDispatch } from "react-redux";
+import { REMOVE_FROM_WISHLIST } from "../../../redux/slice/wishlistSlice";
 
-const ProductListingBig = ({
-  id,
-  title,
-  description,
-  price,
-  stock,
-  discountPercentage,
-  rating,
-  category,
-  thumbnail,
-  images,
-}) => {
+const ProductListingBig = (props) => {
+  const {
+    id,
+    title,
+    description,
+    price,
+    stock,
+    discountPercentage,
+    rating,
+    category,
+    thumbnail,
+    images,
+  } = props;
+  const dispatch = useDispatch();
+  const router = useRouter();
   const auth = useContext(AuthContext);
   const [amount, setAmount] = useContext(ProductListingContext);
   const link = ROUTE.PRODUCTS_DETAIL + id;
@@ -29,16 +36,46 @@ const ProductListingBig = ({
   const totalNetto = useTotalPrice(price, amount);
   const totalBrutto = useTotalPrice(priceBrutto, amount);
 
+  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: props }));
+
+  const isWishlist = router.pathname === ROUTE.WISHLIST;
+
+  const renderWishlist = isWishlist ? (
+    <Grid
+      item
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
+      <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
+        <FavoriteIcon />
+      </IconButton>
+    </Grid>
+  ) : null;
+
   const renderComponentAddToCart = auth.isAuthenticated ? (
-    <Box
+    <Grid
+      item
+      xs
       sx={{
         display: "flex",
         width: "100%",
-        justifyContent: "flex-end",
+        justifyContent: isWishlist ? "space-between" : "flex-end",
       }}
     >
-      <InputNumber stock={stock} amount={setAmount} setAmount={setAmount} />
-    </Box>
+      {renderWishlist}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <InputNumber product={props} stock={stock} amount={amount} setAmount={setAmount} />
+      </Box>
+    </Grid>
   ) : null;
 
   return (
@@ -183,9 +220,8 @@ const ProductListingBig = ({
                 brutto pc.
               </Typography>
             </Grid>
-
-            {renderComponentAddToCart}
           </Grid>
+          {renderComponentAddToCart}
         </Grid>
       </Grid>
     </>
