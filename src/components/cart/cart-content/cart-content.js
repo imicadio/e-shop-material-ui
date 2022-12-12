@@ -58,12 +58,17 @@ const CartContent = ({ items, selected, totalAmount, totalQuantity, handleClick 
   const renderTotalAmount =
     discount > 0 ? (
       <Typography variant="body1" component="p" fontWeight={600}>
-        Total amount:{" "}
-        <Typography variant="body2" component="span" sx={{
-          textDecoration: 'line-through'
-        }}>
+        Total amount:
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{
+            textDecoration: "line-through",
+            mr: 1,
+          }}
+        >
           ${totalAmount}
-        </Typography>{" "}
+        </Typography>
         ${discountPrice(totalAmount, discount)}
       </Typography>
     ) : (

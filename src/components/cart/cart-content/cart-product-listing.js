@@ -3,8 +3,9 @@ import { Box, Checkbox, Divider, Grid, IconButton, Typography, Tooltip } from "@
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useDispatch } from "react-redux";
-import { ADD_TO_CART, DECREASE_CART } from "../../../redux/slice/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_TO_CART, DECREASE_CART, selectCartDiscount } from "../../../redux/slice/cartSlice";
+import { discountPrice } from "../../../helpers/discount";
 
 const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) => {
   const dispatch = useDispatch();
@@ -20,6 +21,30 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
   const isItemSelected = isSelected(item.id);
+  const discount = useSelector(selectCartDiscount);
+
+  const renderPrice =
+    discount > 0 ? (
+      <Typography variant="body1" component="p" fontWeight={600} sx={{
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        ${discountPrice(item.price, discount)}
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{
+            textDecoration: "line-through",
+          }}
+        >
+          ${item.price}
+        </Typography>
+      </Typography>
+    ) : (
+      <Typography variant="body1" component="p" fontWeight={600}>
+        Total amount: ${item.price}
+      </Typography>
+    );
 
   return (
     <Box>
@@ -50,9 +75,7 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
           </Typography>
         </Grid>
         <Grid p={2} item xs={2}>
-          <Typography variant="body2" component="p" align="center">
-            ${item.price}
-          </Typography>
+          {renderPrice}
         </Grid>
         <Grid
           item

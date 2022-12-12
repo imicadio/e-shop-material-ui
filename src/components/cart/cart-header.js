@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect, forwardRef, useRef, useImperativeHandle } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -114,6 +114,45 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
 
   //END DIALOG
 
+  const renderCartContent =
+    cartItems.length > 0 ? (
+      <CartContent
+        items={cartItems}
+        selected={selected}
+        handleClick={handleClick}
+        totalQuantity={totalQuantity}
+        totalAmount={totalAmount}
+      />
+    ) : (
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          flex: 1,
+          overflow: "hidden",
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          p={2}
+          sx={{
+            overflowY: "auto",
+            height: "100%",
+          }}
+        >
+          <Typography variant="h3" component="p" sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}>
+            Your cart is empty
+          </Typography>
+        </Grid>
+      </Grid>
+    );
+
   return (
     <>
       <Box
@@ -188,13 +227,7 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
         >
           <CartHeaderTop handleSelectAllClick={handleSelectAllClick} />
         </Box>
-        <CartContent
-          items={cartItems}
-          selected={selected}
-          handleClick={handleClick}
-          totalQuantity={totalQuantity}
-          totalAmount={totalAmount}
-        />
+        {renderCartContent}
         <Grid
           container
           sx={{
