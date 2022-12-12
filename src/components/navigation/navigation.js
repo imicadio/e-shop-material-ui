@@ -83,7 +83,7 @@ const Navigation = ({ open, setActiveMenu }) => {
   const renderNavigation = lgUp ? (
     listNavigation.map((item) => {
       if (item.guard.length !== 0) {
-        return item.guard.includes(auth.user.role) ? (
+        return auth.isAuthenticated && item.guard.includes(auth.user.role) ? (
           <Typography
             variant="body1"
             component="p"
@@ -103,8 +103,6 @@ const Navigation = ({ open, setActiveMenu }) => {
           </Typography>
         ) : null;
       }
-
-      console.log('return item')
 
       return (
         <Typography

@@ -29,7 +29,11 @@ export const AuthGuard = (props) => {
 
       ignore.current = true;
 
-      if (pageProps.userTypes.indexOf(user.role) === -1) {
+      console.log(user)
+
+      const isUser = user ? user.role : null;
+
+      if (pageProps.userTypes.indexOf(isUser) === -1) {
         console.log('Not authenticated, redirecting');
         router
           .replace({
