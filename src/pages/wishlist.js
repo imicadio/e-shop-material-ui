@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MainLayout } from "../../layout/layout";
-import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
-import { SidebarLayout } from "../../layout/sidebar-layout";
-import ProductsSidebar from "../../components/product-listing/products-sidebar";
-import {
-  FILTER_BY_SEARCH,
-  selectFilteredProducts,
-  selectSearch,
-} from "../../redux/slice/filterSlice";
+import { MainLayout } from "../layout/layout";
+import Breadcrumb from "../components/breadcrumbs/breadcrumb";
+import { SidebarLayout } from "../layout/sidebar-layout";
+import ProductsSidebar from "../components/product-listing/products-sidebar";
+import { FILTER_BY_SEARCH, selectSearch } from "../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ProductListingHeader from "../../components/product-listing/product-listing-header";
-import ProductListing from "../../components/product-listing/product-listing";
-import { floorDown } from "../../helpers/numbers";
-import { Pagination } from "@mui/material";
+import ProductListingHeader from "../components/product-listing/product-listing-header";
+import ProductListing from "../components/product-listing/product-listing";
+import { floorDown } from "../helpers/numbers";
+import { Container, Pagination } from "@mui/material";
+import { selectWishlistItems } from "../redux/slice/wishlistSlice";
 
 const Page = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -22,7 +19,7 @@ const Page = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(null);
 
-  const filteredProducts = useSelector(selectFilteredProducts);
+  const filteredProducts = useSelector(selectWishlistItems);
   const search = useSelector(selectSearch);
 
   const setListView = (value) => setViewList(value);
@@ -52,9 +49,7 @@ const Page = () => {
   }, [filteredProducts]);
 
   return (
-    <SidebarLayout
-      sidebar={<ProductsSidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />}
-    >
+    <Container maxWidth="xl">
       <Breadcrumb />
       <ProductListingHeader
         setListView={setListView}
@@ -91,7 +86,7 @@ const Page = () => {
           },
         }}
       />
-    </SidebarLayout>
+    </Container>
   );
 };
 
@@ -103,7 +98,7 @@ export async function getStaticProps() {
   return {
     props: {
       protected: false,
-      userTypes: [],
+      userTypes: ["user", "admin"],
     },
   };
 }

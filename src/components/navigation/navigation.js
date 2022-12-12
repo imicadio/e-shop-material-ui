@@ -17,7 +17,7 @@ import {
 import { ROUTE } from "../../shared/routing";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
-import Router from 'next/router';
+import Router from "next/router";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -31,11 +31,19 @@ const listNavigation = [
     name: "Home",
     link: ROUTE.HOME,
     icon: <HomeIcon sx={{ color: "primary.main" }} />,
+    guard: [],
   },
   {
     name: "Products",
     link: ROUTE.PRODUCTS,
     icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
+    guard: [],
+  },
+  {
+    name: "Wishlist",
+    link: ROUTE.WISHLIST,
+    icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
+    guard: ["admin", "user"],
   },
 ];
 
@@ -70,26 +78,54 @@ const Navigation = ({ open, setActiveMenu }) => {
     }
   };
 
+  console.log();
+
   const renderNavigation = lgUp ? (
-    listNavigation.map((item) => (
-      <Typography
-        variant="body1"
-        component="p"
-        align="left"
-        sx={{
-          textTransform: "uppercase",
-          fontWeight: "bold",
-          backgroundColor: router.pathname == item.link ? "primary.lightGray" : "",
-          p: 1,
-        }}
-        key={item.name}
-        className={router.pathname == item.link ? "navigation-item active" : "navigation-item"}
-      >
-        <NextLink href={item.link} passHref>
-          {item.name}
-        </NextLink>
-      </Typography>
-    ))
+    listNavigation.map((item) => {
+      if (item.guard.length !== 0) {
+        return item.guard.includes(auth.user.role) ? (
+          <Typography
+            variant="body1"
+            component="p"
+            align="left"
+            sx={{
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              backgroundColor: router.pathname == item.link ? "primary.lightGray" : "",
+              p: 1,
+            }}
+            key={item.name}
+            className={router.pathname == item.link ? "navigation-item active" : "navigation-item"}
+          >
+            <NextLink href={item.link} passHref>
+              {item.name}
+            </NextLink>
+          </Typography>
+        ) : null;
+      }
+
+      console.log('return item')
+
+      return (
+        <Typography
+          variant="body1"
+          component="p"
+          align="left"
+          sx={{
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            backgroundColor: router.pathname == item.link ? "primary.lightGray" : "",
+            p: 1,
+          }}
+          key={item.name}
+          className={router.pathname == item.link ? "navigation-item active" : "navigation-item"}
+        >
+          <NextLink href={item.link} passHref>
+            {item.name}
+          </NextLink>
+        </Typography>
+      );
+    })
   ) : (
     // RESPONSIVE
     <Toolbar>
@@ -203,7 +239,7 @@ const Navigation = ({ open, setActiveMenu }) => {
           xs: 0,
           lg: "unset",
         },
-        mb: 5
+        mb: 5,
       }}
       className="navigation-menu"
     >

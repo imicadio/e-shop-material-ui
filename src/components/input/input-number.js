@@ -11,8 +11,7 @@ import React, { useContext } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { ProductListingContext } from "../product-listing/product-listing-view/product-listing-view";
-import { inputBetweenNumber } from "../../hooks/numbers";
+import { inputBetweenNumber } from "../../helpers/numbers";
 import { ADD_TO_CART } from "../../redux/slice/cartSlice";
 import { useDispatch } from "react-redux";
 
