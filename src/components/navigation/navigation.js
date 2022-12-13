@@ -78,8 +78,6 @@ const Navigation = ({ open, setActiveMenu }) => {
     }
   };
 
-  console.log();
-
   const renderNavigation = lgUp ? (
     listNavigation.map((item) => {
       if (item.guard.length !== 0) {

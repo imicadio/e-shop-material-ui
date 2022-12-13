@@ -29,8 +29,6 @@ export const AuthGuard = (props) => {
 
       ignore.current = true;
 
-      console.log(user)
-
       const isUser = user ? user.role : null;
 
       if (pageProps.userTypes.indexOf(isUser) === -1) {

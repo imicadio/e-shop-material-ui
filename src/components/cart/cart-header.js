@@ -28,8 +28,6 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
   const handleOpenAlert = () => setOpenAlert(!openAlert);
 
   const closeModal = () => {
-    console.log("ref: ", ref.current);
-
     cartOverlay.current.style.animationName = "overlayHide";
     cartWrapper.current.style.animationName = "slideIn";
 

@@ -12,8 +12,6 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 const GalleryThumbnail = ({ thumbs }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  console.log(thumbs);
-
   const renderMainSlide =
     thumbs.length > 0
       ? thumbs.map((img, index) => (
@@ -38,10 +36,6 @@ const GalleryThumbnail = ({ thumbs }) => {
   return (
     <>
       <Swiper
-        // style={{
-        //   "--swiper-navigation-color": "#fff",
-        //   "--swiper-pagination-color": "#fff",
-        // }}
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}

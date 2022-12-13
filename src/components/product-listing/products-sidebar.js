@@ -108,9 +108,6 @@ const ProductsSidebar = ({ onClose, open }) => {
     const value = e.target.value;
     const valueIndex = selectedFilter[name].indexOf(value);
 
-    console.log(name)
-    console.log(selectedFilter)
-
     if (valueIndex >= 0) {
       return handleSelect(
         name,

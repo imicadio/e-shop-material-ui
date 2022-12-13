@@ -7,7 +7,11 @@ import { MainLayout } from "../../layout/layout";
 import { ROUTE } from "../../shared/routing";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, selectWishlistItems } from "../../redux/slice/wishlistSlice";
+import {
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+  selectWishlistItems,
+} from "../../redux/slice/wishlistSlice";
 import { AuthContext } from "../../contexts/auth-context";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { containsId } from "../../helpers/containsId";
@@ -45,8 +49,6 @@ const Page = ({ product }) => {
       <FavoriteBorderIcon fontSize="large" />
     </IconButton>
   );
-
-  
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Grid
@@ -103,7 +105,6 @@ const Page = ({ product }) => {
           </Typography>
 
           <Box
-            container
             sx={{
               my: 3,
               display: "flex",
