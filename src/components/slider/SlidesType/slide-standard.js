@@ -12,15 +12,16 @@ import {
 } from "../../../redux/slice/wishlistSlice";
 import { containsId } from "../../../helpers/containsId";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { ROUTE } from "../../../shared/routing";
 
 const SlideStandard = ({ slide }) => {
   const dispatch = useDispatch();
   const wislistItems = useSelector(selectWishlistItems);
   const auth = useContext(AuthContext);
   const [amount, setAmount] = useState(1);
+  const link = ROUTE.PRODUCTS_DETAIL + slide.id;
 
   const handleWishlist = (e) => dispatch(ADD_TO_WISHLIST({ product: slide }));
-
   const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: slide }));
 
   const renderWishlistButton = containsId(wislistItems, slide.id) ? (
@@ -36,7 +37,7 @@ const SlideStandard = ({ slide }) => {
   const renderTitle = auth.isAuthenticated ? (
     <Grid container>
       <Grid item xs>
-        <NextLink href="/" passHref>
+        <NextLink href={link} passHref>
           <a>
             <Typography variant="h6">{slide.title}</Typography>
             <Typography variant="body1">{slide.category}</Typography>
@@ -48,8 +49,12 @@ const SlideStandard = ({ slide }) => {
     </Grid>
   ) : (
     <>
-      <Typography variant="h6">{slide.title}</Typography>
-      <Typography variant="body1">{slide.category}</Typography>
+      <NextLink href={link} passHref>
+        <a>
+          <Typography variant="h6">{slide.title}</Typography>
+          <Typography variant="body1">{slide.category}</Typography>
+        </a>
+      </NextLink>
     </>
   );
 
@@ -89,7 +94,7 @@ const SlideStandard = ({ slide }) => {
           mb: 3,
         }}
       >
-        <NextLink href="/" passHref>
+        <NextLink href={link} passHref>
           <a>
             <img
               src={slide.thumbnail}
