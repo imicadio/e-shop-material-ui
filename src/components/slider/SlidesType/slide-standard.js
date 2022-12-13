@@ -5,7 +5,11 @@ import InputNumber from "../../input/input-number";
 import { AuthContext } from "../../../contexts/auth-context";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, selectWishlistItems } from "../../../redux/slice/wishlistSlice";
+import {
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+  selectWishlistItems,
+} from "../../../redux/slice/wishlistSlice";
 import { containsId } from "../../../helpers/containsId";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
@@ -49,6 +53,28 @@ const SlideStandard = ({ slide }) => {
     </>
   );
 
+  const renderAddToCart = auth.isAuthenticated ? (
+    <Box
+      sx={{
+        display: "flex",
+        mt: 2,
+      }}
+    >
+      <InputNumber
+        product={slide}
+        stock={slide.stock}
+        amount={amount}
+        setAmount={setAmount}
+        display={{
+          display: {
+            xs: "none",
+            xl: "block",
+          },
+        }}
+      />
+    </Box>
+  ) : null;
+
   return (
     <Box
       sx={{
@@ -76,25 +102,7 @@ const SlideStandard = ({ slide }) => {
 
         {renderTitle}
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          mt: 2,
-        }}
-      >
-        <InputNumber
-          product={slide}
-          stock={slide.stock}
-          amount={amount}
-          setAmount={setAmount}
-          display={{
-            display: {
-              xs: "none",
-              xl: "block",
-            },
-          }}
-        />
-      </Box>
+      {renderAddToCart}
     </Box>
   );
 };
