@@ -15,6 +15,7 @@ import {
 import { AuthContext } from "../../contexts/auth-context";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { containsId } from "../../helpers/containsId";
+import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
 
 const Page = ({ product }) => {
   const {
@@ -77,7 +78,8 @@ const Page = ({ product }) => {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={2}>
+      <Breadcrumb />
+      <Grid container spacing={2} mt={4}>
         <Grid item xs={12} md={6}>
           <GalleryThumbnail thumbs={images} />
         </Grid>
