@@ -29,10 +29,10 @@ const App = (props) => {
     if (auth.isLoading) return <Loader />;
 
     if (pageProps.protected && pageProps.userTypes) {
-      if (pageProps.protected && pageProps.userTypes.indexOf(auth.user.role) !== -1) {
-        return getLayout(<Component {...pageProps} />);
-      } else if (!auth.isAuthenticated) {
+      if (!auth.isAuthenticated) {
         return <AuthGuard pageProps={pageProps} />;
+      } else if (pageProps.protected && pageProps.userTypes.indexOf(auth.user.role) !== -1) {
+        return getLayout(<Component {...pageProps} />);
       } else {
         return <AuthGuard pageProps={pageProps} />;
       }

@@ -78,12 +78,28 @@ const Navigation = ({ open, setActiveMenu }) => {
     }
   };
 
-  console.log();
+  const renderNavigationMobile = listNavigation.map((item) => {
+    if (item.guard.length !== 0) {
+      return auth.isAuthenticated && item.guard.includes(auth.user.role) ? (
+        <ListItemButton key={item.name} href={item.link}>
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.name} />
+        </ListItemButton>
+      ) : null;
+    }
+
+    return (
+      <ListItemButton key={item.name} href={item.link}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.name} />
+      </ListItemButton>
+    );
+  });
 
   const renderNavigation = lgUp ? (
     listNavigation.map((item) => {
       if (item.guard.length !== 0) {
-        return item.guard.includes(auth.user.role) ? (
+        return auth.isAuthenticated && item.guard.includes(auth.user.role) ? (
           <Typography
             variant="body1"
             component="p"
@@ -103,8 +119,6 @@ const Navigation = ({ open, setActiveMenu }) => {
           </Typography>
         ) : null;
       }
-
-      console.log('return item')
 
       return (
         <Typography
@@ -183,14 +197,7 @@ const Navigation = ({ open, setActiveMenu }) => {
             </>
           ) : null}
 
-          <Box sx={{ mb: 2 }}>
-            {listNavigation.map((item) => (
-              <ListItemButton key={item.name} href={item.link}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-            ))}
-          </Box>
+          <Box sx={{ mb: 2 }}>{renderNavigationMobile}</Box>
 
           <Box
             sx={{
@@ -208,10 +215,10 @@ const Navigation = ({ open, setActiveMenu }) => {
               </Button>
             ) : (
               <>
-                <Button variant="contained" sx={{ m: 1, width: 0.5 }}>
+                <Button href={ROUTE.LOGIN} variant="contained" sx={{ m: 1, width: 0.5 }}>
                   Register
                 </Button>
-                <Button variant="outlined" sx={{ m: 1, width: 0.5 }}>
+                <Button href={ROUTE.LOGIN} variant="outlined" sx={{ m: 1, width: 0.5 }}>
                   Login
                 </Button>
               </>

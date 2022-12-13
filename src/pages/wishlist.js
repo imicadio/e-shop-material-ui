@@ -103,7 +103,7 @@ export default Page;
 export async function getStaticProps() {
   return {
     props: {
-      protected: false,
+      protected: true,
       userTypes: ["user", "admin"],
     },
   };
