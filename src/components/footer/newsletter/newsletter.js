@@ -7,10 +7,36 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
+import { regexEmail } from "../../../helpers/regexp";
+import { newsletterHasEmail, postMail } from "../../../services/newsletter";
+import { toast } from "react-toastify";
 
 const Newsletter = () => {
+  const [inputEmail, setInputEmail] = useState();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const isEmail = regexEmail.test(inputEmail);
+
+    // if email is invalid
+    if (!isEmail)
+      return toast.error("Wrong email address.", {
+        position: "top-left",
+      });
+
+    newsletterHasEmail(inputEmail).then((hasEmail) => {
+      if (hasEmail) {
+        toast.info("You are already subscribed to our newsletter.", {
+          position: "top-left",
+        });
+      } else {
+        postMail(inputEmail);
+      }
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -19,7 +45,7 @@ const Newsletter = () => {
           xs: 4,
           md: 7,
         },
-        mt: 5
+        mt: 5,
       }}
     >
       <Container maxWidth="xl">
@@ -28,7 +54,7 @@ const Newsletter = () => {
             item
             sx={{
               width: {
-                xs: '100%',
+                xs: "100%",
                 md: "auto",
               },
             }}
@@ -41,9 +67,9 @@ const Newsletter = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: {
-                    xs: 'center',
-                    md: 'flex-start'
-                }
+                  xs: "center",
+                  md: "flex-start",
+                },
               }}
             >
               <LocalPostOfficeIcon
@@ -57,12 +83,17 @@ const Newsletter = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={5}>
-            <Typography variant="h6" component="p" color="white" sx={{
+            <Typography
+              variant="h6"
+              component="p"
+              color="white"
+              sx={{
                 textAlign: {
-                    xs: 'center',
-                    md: 'left'
-                }
-            }}>
+                  xs: "center",
+                  md: "left",
+                },
+              }}
+            >
               Subscribe and follow our social media pages to keep up to date with news, sales and
               product promotions
             </Typography>
@@ -79,6 +110,7 @@ const Newsletter = () => {
                 },
                 margin: "0 auto",
               }}
+              onSubmit={(event) => handleSubmit(event)}
             >
               <FormControl
                 fullWidth
@@ -86,9 +118,13 @@ const Newsletter = () => {
                   backgroundColor: "white",
                 }}
               >
-                <OutlinedInput placeholder="e-mail" />
+                <OutlinedInput
+                  placeholder="e-mail"
+                  onChange={(event) => setInputEmail(event.target.value)}
+                />
               </FormControl>
               <Button
+                type="submit"
                 variant="contained"
                 sx={{
                   md: {
