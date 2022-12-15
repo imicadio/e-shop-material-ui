@@ -45,6 +45,12 @@ const listNavigation = [
     icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
     guard: ["admin", "user"],
   },
+  {
+    name: "DASHBOARD",
+    link: ROUTE.DASHBOARD,
+    icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
+    guard: ["admin", "user"],
+  },
 ];
 
 const Navigation = ({ open, setActiveMenu }) => {
