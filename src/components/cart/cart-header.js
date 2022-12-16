@@ -5,14 +5,13 @@ import {
   CALCULATE_SUBTOTAL,
   CALCULATE_TOTAL_QUANTITY,
   selectCartItems,
-  selectCartTotalQuantity,
-  selectCartTotalAmount,
   REMOVE_FROM_CART,
 } from "../../redux/slice/cartSlice";
 import CartContent from "./cart-content/cart-content";
 import CartHeaderTop from "./cart-header-top";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AlertDialog from "../dialog/dialog";
+import { ROUTE } from "../../shared/routing";
 
 const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
   const [openAlert, setOpenAlert] = useState(false);
@@ -21,8 +20,7 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
   const cartOverlay = useRef(null);
   const cartWrapper = useRef(null);
   const cartItems = useSelector(selectCartItems);
-  const totalQuantity = useSelector(selectCartTotalQuantity);
-  const totalAmount = useSelector(selectCartTotalAmount);
+  
 
   // DIALOG
   const handleOpenAlert = () => setOpenAlert(!openAlert);
@@ -118,8 +116,6 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
         items={cartItems}
         selected={selected}
         handleClick={handleClick}
-        totalQuantity={totalQuantity}
-        totalAmount={totalAmount}
       />
     ) : (
       <Grid
@@ -139,12 +135,16 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
             height: "100%",
           }}
         >
-          <Typography variant="h3" component="p" sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}>
+          <Typography
+            variant="h3"
+            component="p"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
             Your cart is empty
           </Typography>
         </Grid>
@@ -244,7 +244,7 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
             {renderResetFilters}
           </Grid>
           <Grid item xs={4} p={2}>
-            <Button variant="contained" sx={{ width: 1 }}>
+            <Button href={ROUTE.DASHBOARD + ROUTE.CART} variant="contained" sx={{ width: 1 }}>
               Checkout
             </Button>
           </Grid>

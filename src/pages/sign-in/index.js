@@ -12,6 +12,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { firebaseAuth } from "../../lib/firebase";
+import { userObject } from "../../helpers/userObject";
 
 const Page = () => {
   const [tab, setTab] = useState("email");
@@ -31,9 +32,7 @@ const Page = () => {
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
     }),
     onSubmit: async (values, helpers) => {
-
       try {
-
         const { email, password } = values;
 
         const user = {};
@@ -72,21 +71,23 @@ const Page = () => {
     }),
 
     onSubmit: async (values, helpers) => {
-
       const createUserRole = async (postData) => {
         try {
-          const response = await fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            body: JSON.stringify(postData),
-          });
+          const response = await fetch(
+            process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json",
+            {
+              method: "POST",
+              mode: "cors",
+              cache: "no-cache",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              redirect: "follow",
+              referrerPolicy: "no-referrer",
+              body: JSON.stringify(postData),
+            }
+          );
 
           if (response.status < 200 || response.status >= 400) {
             throw new Error("Something went wrong");
@@ -102,14 +103,21 @@ const Page = () => {
         .then((userCredential) => {
           const user = userCredential.user;
 
-          createUserRole({ id: user.uid, email, passwordRegister, role: "user" });
+          const userBody = userObject;
+
+          userBody.id = user.uid;
+          userBody.email = email;
+          userBody.password = passwordRegister;
+          userBody.role = "user";
+
+          createUserRole(userBody);
 
           toast.success("Succes Register...");
-          navigation("/");
         })
         .catch((error) => {
           toast.error(error.message);
         });
+      Router.push("/").catch(console.error);
     },
   });
 
@@ -257,9 +265,7 @@ const Page = () => {
                           sx={{ mt: 3 }}
                         />
 
-                        <FormHelperText sx={{ mt: 1 }}>
-                          Enter a valid email.
-                        </FormHelperText>
+                        <FormHelperText sx={{ mt: 1 }}>Enter a valid email.</FormHelperText>
                         {formik.errors.submit && (
                           <Typography color="error" sx={{ mt: 2 }} variant="body2">
                             {formik.errors.submit}

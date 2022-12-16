@@ -6,8 +6,14 @@ const initialState = {
     typeof window !== "undefined" && localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
-  cartTotalQuantity: 0,
-  cartTotalAmount: 0,
+  cartTotalQuantity:
+    typeof window !== "undefined" && localStorage.getItem("totalQuantity")
+      ? JSON.parse(localStorage.getItem("totalQuantity"))
+      : "",
+  cartTotalAmount:
+    typeof window !== "undefined" && localStorage.getItem("totalAmount")
+      ? JSON.parse(localStorage.getItem("totalAmount"))
+      : "",
   previousURL: "",
   promoCode:
     typeof window !== "undefined" && localStorage.getItem("promoCode")
@@ -46,6 +52,7 @@ const cartSlice = createSlice({
       }
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("totalQuantity", JSON.stringify(state.cartTotalQuantity));
     },
 
     DECREASE_CART: (state, action) => {
@@ -101,6 +108,7 @@ const cartSlice = createSlice({
         return a + b;
       }, 0);
       state.cartTotalAmount = totalAmount;
+      localStorage.setItem("totalAmount", JSON.stringify(state.cartTotalAmount));
     },
 
     CALCULATE_TOTAL_QUANTITY: (state, action) => {
@@ -114,6 +122,7 @@ const cartSlice = createSlice({
         return a + b;
       }, 0);
       state.cartTotalQuantity = totalQuantity;
+      localStorage.setItem("totalQuantity", JSON.stringify(state.cartTotalQuantity));
     },
 
     SAVE_URL: (state, action) => {

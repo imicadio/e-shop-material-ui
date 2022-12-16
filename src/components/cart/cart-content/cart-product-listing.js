@@ -25,10 +25,15 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
 
   const renderPrice =
     discount > 0 ? (
-      <Typography variant="body1" component="p" fontWeight={600} sx={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
+      <Typography
+        variant="body1"
+        component="p"
+        fontWeight={600}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         ${discountPrice(item.price, discount)}
         <Typography
           variant="body2"
@@ -42,7 +47,7 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
       </Typography>
     ) : (
       <Typography variant="body1" component="p" fontWeight={600}>
-        Total amount: ${item.price}
+        ${item.price}
       </Typography>
     );
 

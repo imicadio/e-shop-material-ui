@@ -25,6 +25,7 @@ import Divider from "@mui/material/Divider";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import { AuthContext } from "../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import CartBadge from "../cart/cart-badge/cart-badge";
 
 const listNavigation = [
   {
@@ -193,9 +194,7 @@ const Navigation = ({ open, setActiveMenu }) => {
               <Divider sx={{ mb: 2 }} />
               <ListItemButton>
                 <ListItemIcon>
-                  <Badge badgeContent={4} color="primary">
-                    <ShoppingBasketIcon fontSize="large" />
-                  </Badge>
+                  <CartBadge />
                 </ListItemIcon>
                 <ListItemText primary="Shopping cart" />
               </ListItemButton>
