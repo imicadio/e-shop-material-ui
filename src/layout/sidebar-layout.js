@@ -42,6 +42,7 @@ export const SidebarLayout = (props) => {
               xs: isMobile ? "relative" : "absolute",
               lg: "relative",
               zIndex: 2,
+              order: isMobile ? 1 : '',
             },
           }}
         >
@@ -52,6 +53,7 @@ export const SidebarLayout = (props) => {
           item
           sx={{
             flex: 1,
+            width: '100%',
           }}
         >
           <Box
