@@ -143,6 +143,7 @@ const CartHeader = forwardRef(({ isOpenCart, setIsOpenCart }, ref) => {
               justifyContent: "center",
               alignItems: "center",
               height: "100%",
+              color: 'lightgray'
             }}
           >
             Your cart is empty
