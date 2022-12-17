@@ -76,26 +76,38 @@ Project has 3 users:
   - [x] Admin
   - [x] User
   - [x] Browsing user
-- [x] Advanced filters from:
+- [x] Advanced filters for:
   - [x] Categories
   - [x] Brands
   - [x] Search
 - [x] Tabs slider
-- [x] Autch and autchenticated
+  - [x] Custom slider
+- [x] Auth and authenticated
   - [x] Show action add to cart
   - [x] Header
   - [x] Pages
-- [ ] Responsive
+- [x] Responsive
   - [x] Menu
   - [x] Filters
   - [x] Tabs
   - [x] Sliders
-- [ ] Cart
+- [x] Cart
   - [x] Add to cart
-  - [ ] Discount code
-  - [ ] CRUD
+  - [x] Discount code
+  - [x] CRUD
+  - [x] Alert dialog
+- [x] Show price if user login
+- [x] Wishlist
 
 <!-- Contact -->
+
+| Custom Slider  |
+| -------------- |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/slider.png?raw=true)  |
+| Slider if user Logout  |
+|                |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/slider_login.png?raw=true)  |
+| Slider if user Login  |
 
 
 
