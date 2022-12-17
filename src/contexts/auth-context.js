@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { auth, ENABLE_AUTH } from "../lib/auth";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseAuth } from "../lib/firebase";
+import Router from "next/router";
+import { toast } from "react-toastify";
 
 const HANDLERS = {
   INITIALIZE: "INITIALIZE",
@@ -140,34 +142,38 @@ export const AuthProvider = (props) => {
   }, []);
 
   const signIn = (userData, email, password) => {
-    signInWithEmailAndPassword(firebaseAuth, email, password)
+    const test = signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
 
         fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + "/user.json")
-            .then((response) => response.json())
-            .then((data) => {
-              // console.log(user.uid);
-              const isUser = Object.entries(data).filter(([key, value]) => value.email === email);
-              if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(user.uid);
+            const isUser = Object.entries(data).filter(([key, value]) => value.email === email);
+            if (isUser.length < 1) return console.error("USER MISSING PLEASE LOGIN");
 
-              const payloadUser = {
-                id: user.uid,
-                role: isUser[0][1].role,
-              };
+            const payloadUser = {
+              id: user.uid,
+              role: isUser[0][1].role,
+            };
 
-              dispatch({
-                type: HANDLERS.SIGN_IN,
-                payload: payloadUser,
-              });
-            })
-            .catch((error) => console.error(error));
+            dispatch({
+              type: HANDLERS.SIGN_IN,
+              payload: payloadUser,
+            });
 
-        
+            Router.push("/").catch(console.error);
+          })
+          .catch((error) => console.error(error));
       })
       .catch((error) => {
-        console.error(error.message);
-      });    
+        toast.error(error.message, {
+          position: "top-left",
+        });
+      });
+
+    console.log("test: ", test);
   };
 
   const logout = () => {

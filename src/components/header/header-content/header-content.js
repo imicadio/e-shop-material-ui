@@ -23,10 +23,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../../redux/slice/listProductSlice";
 import CartHeader from "../../cart/cart-header";
 import {
+  CALCULATE_SUBTOTAL,
   CALCULATE_TOTAL_QUANTITY,
   selectCartItems,
   selectCartTotalQuantity,
 } from "../../../redux/slice/cartSlice";
+import CartBadge from "../../cart/cart-badge/cart-badge";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const modalBackground = useRef(null);
@@ -97,35 +99,13 @@ const HeaderContent = ({ open, setActiveMenu }) => {
   };
 
   useEffect(() => {
+    dispatch(CALCULATE_SUBTOTAL());
     dispatch(CALCULATE_TOTAL_QUANTITY());
   }, [cartItems]);
 
   const renderOpenCart = isOpenCart ? (
     <CartHeader isOpenCart={isOpenCart} setIsOpenCart={setIsOpenCart} ref={modalBackground} />
   ) : null;
-
-  const renderBadge =
-    cartTotalQuantity > 0 ? (
-      <IconButton
-        aria-label="shopping-cart"
-        sx={{
-          height: "100%",
-        }}
-      >
-        <Badge badgeContent={cartTotalQuantity} color="primary">
-          <ShoppingBasketIcon fontSize="large" />
-        </Badge>
-      </IconButton>
-    ) : (
-      <IconButton
-        aria-label="shopping-cart"
-        sx={{
-          height: "100%",
-        }}
-      >
-        <ShoppingBasketIcon fontSize="large" />
-      </IconButton>
-    );
 
   const renderSearchResults =
     filteredData.length > 0 ? (
@@ -237,7 +217,7 @@ const HeaderContent = ({ open, setActiveMenu }) => {
               <Typography variant="body1" component="p" fontWeight={600}>
                 Cart
               </Typography>
-              {renderBadge}
+              <CartBadge />
             </Box>
             <Box
               sx={{

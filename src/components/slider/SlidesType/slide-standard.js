@@ -13,25 +13,22 @@ import {
 import { containsId } from "../../../helpers/containsId";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { ROUTE } from "../../../shared/routing";
+import { useGoToProductDetail } from "../../../hooks/useGoToProductDetail";
+import CustomLink from "../../custom-link/custom-link";
+import { useGoToCategory } from "../../../hooks/useGoToCategory";
+import WishlistAction from "../../actions/wishlist-action";
 
 const SlideStandard = ({ slide }) => {
-  const dispatch = useDispatch();
   const wislistItems = useSelector(selectWishlistItems);
   const auth = useContext(AuthContext);
   const [amount, setAmount] = useState(1);
-  const link = ROUTE.PRODUCTS_DETAIL + slide.id;
-
-  const handleWishlist = (e) => dispatch(ADD_TO_WISHLIST({ product: slide }));
-  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: slide }));
+  const link = useGoToProductDetail(slide.id);
+  const goToCategory = useGoToCategory(slide.category);
 
   const renderWishlistButton = containsId(wislistItems, slide.id) ? (
-    <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
-      <FavoriteIcon />
-    </IconButton>
+    <WishlistAction remove product={slide} />
   ) : (
-    <IconButton type="button" aria-label="add to wishlist" onClick={handleWishlist}>
-      <FavoriteBorderIcon />
-    </IconButton>
+    <WishlistAction add product={slide} />
   );
 
   const renderTitle = auth.isAuthenticated ? (
@@ -40,9 +37,11 @@ const SlideStandard = ({ slide }) => {
         <NextLink href={link} passHref>
           <a>
             <Typography variant="h6">{slide.title}</Typography>
-            <Typography variant="body1">{slide.category}</Typography>
           </a>
         </NextLink>
+        <CustomLink href={goToCategory}>
+          <Typography variant="body1">{slide.category}</Typography>
+        </CustomLink>
       </Grid>
 
       <Grid item>{renderWishlistButton}</Grid>
@@ -52,9 +51,11 @@ const SlideStandard = ({ slide }) => {
       <NextLink href={link} passHref>
         <a>
           <Typography variant="h6">{slide.title}</Typography>
-          <Typography variant="body1">{slide.category}</Typography>
         </a>
       </NextLink>
+      <CustomLink href={goToCategory}>
+        <Typography variant="body1">{slide.category}</Typography>
+      </CustomLink>
     </>
   );
 

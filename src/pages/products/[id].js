@@ -15,6 +15,10 @@ import {
 import { AuthContext } from "../../contexts/auth-context";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { containsId } from "../../helpers/containsId";
+import Breadcrumb from "../../components/breadcrumbs/breadcrumb";
+import CustomLink from "../../components/custom-link/custom-link";
+import { useGoToCategory } from "../../hooks/useGoToCategory";
+import WishlistAction from "../../components/actions/wishlist-action";
 
 const Page = ({ product }) => {
   const {
@@ -34,20 +38,12 @@ const Page = ({ product }) => {
   const [amount, setAmount] = useState(1);
   const wislistItems = useSelector(selectWishlistItems);
   const auth = useContext(AuthContext);
-  const router = useRouter();
-
-  const dispatch = useDispatch();
-  const handleWishlist = (e) => dispatch(ADD_TO_WISHLIST({ product: product }));
-  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: product }));
+  const goToCategory = useGoToCategory(category);
 
   const renderWishlistButton = containsId(wislistItems, id) ? (
-    <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
-      <FavoriteIcon fontSize="large" />
-    </IconButton>
+    <WishlistAction remove product={product} />
   ) : (
-    <IconButton type="button" aria-label="add to wishlist" onClick={handleWishlist}>
-      <FavoriteBorderIcon fontSize="large" />
-    </IconButton>
+    <WishlistAction add product={product} />
   );
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
@@ -77,7 +73,8 @@ const Page = ({ product }) => {
 
   return (
     <Container maxWidth="xl">
-      <Grid container spacing={2}>
+      <Breadcrumb />
+      <Grid container spacing={2} mt={4}>
         <Grid item xs={12} md={6}>
           <GalleryThumbnail thumbs={images} />
         </Grid>
@@ -96,9 +93,11 @@ const Page = ({ product }) => {
               ${price}
             </Typography>
           </Typography>
-          <Typography variant="h5" component="h3" mb={1}>
-            {category}
-          </Typography>
+          <CustomLink href={goToCategory}>
+            <Typography variant="h5" component="h3" mb={1}>
+              {category}
+            </Typography>
+          </CustomLink>
           <Rating name="rating-list" value={rating} readOnly />
           <Typography variant="body1" component="p" mt={2}>
             {description}
@@ -124,10 +123,8 @@ export async function getStaticPaths() {
   const res = await fetch(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS + ".json");
   const products = await res.json();
 
-  // console.log(products);
-
-  const paths = products.map((product) => ({
-    params: { id: product.id.toString() },
+  const paths = products.map((product, index) => ({
+    params: { id: index.toString() },
   }));
 
   return { paths, fallback: false };

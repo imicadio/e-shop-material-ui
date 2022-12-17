@@ -6,6 +6,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_TO_CART, DECREASE_CART, selectCartDiscount } from "../../../redux/slice/cartSlice";
 import { discountPrice } from "../../../helpers/discount";
+import CustomLink from "../../custom-link/custom-link";
+import { useGoToProductDetail } from "../../../hooks/useGoToProductDetail";
 
 const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
     }
     dispatch(DECREASE_CART({ product: item }));
   };
+  const link = useGoToProductDetail(item.id);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
   const isItemSelected = isSelected(item.id);
@@ -25,10 +28,15 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
 
   const renderPrice =
     discount > 0 ? (
-      <Typography variant="body1" component="p" fontWeight={600} sx={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
+      <Typography
+        variant="body1"
+        component="p"
+        fontWeight={600}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         ${discountPrice(item.price, discount)}
         <Typography
           variant="body2"
@@ -42,7 +50,7 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
       </Typography>
     ) : (
       <Typography variant="body1" component="p" fontWeight={600}>
-        Total amount: ${item.price}
+        ${item.price}
       </Typography>
     );
 
@@ -70,9 +78,10 @@ const CartProductListing = ({ item, selected, handleClick, handleOpenAlert }) =>
           />
         </Grid>
         <Grid p={2} item xs={4}>
-          <Typography variant="body1" component="p">
+          <CustomLink href={link} text={item.title} />
+          {/* <Typography variant="body1" component="p">
             {item.title}
-          </Typography>
+          </Typography> */}
         </Grid>
         <Grid p={2} item xs={2}>
           {renderPrice}

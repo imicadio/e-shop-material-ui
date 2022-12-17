@@ -7,18 +7,42 @@ import { Container } from "@mui/system";
 import { Sidebar } from "./sidebar";
 
 export const SidebarLayout = (props) => {
-  const { children, sidebar } = props;  
+  const { children, sidebar, isMobile } = props;
 
   return (
-    <Container maxWidth="xl">
-      <Grid container spacing={5}>
+    <Container
+      maxWidth="xl"
+      sx={
+        isMobile
+          ? {
+              paddingLeft: '0 !important',
+              paddingRight: '0 !imporant'
+            }
+          : {}
+      }
+    >
+      <Grid
+        container
+        spacing={5}
+        sx={
+          isMobile
+            ? {
+                flexDirection: {
+                  xs: "column-reverse",
+                  lg: "row",
+                },
+              }
+            : {}
+        }
+      >
         <Grid
           item
           sx={{
             position: {
-              xs: "absolute",
+              xs: isMobile ? "relative" : "absolute",
               lg: "relative",
               zIndex: 2,
+              order: isMobile ? 1 : '',
             },
           }}
         >
@@ -29,6 +53,7 @@ export const SidebarLayout = (props) => {
           item
           sx={{
             flex: 1,
+            width: '100%',
           }}
         >
           <Box

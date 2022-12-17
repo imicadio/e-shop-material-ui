@@ -1,7 +1,9 @@
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useGoToCategory } from "../../../hooks/useGoToCategory";
 import { ROUTE } from "../../../shared/routing";
+import CustomLink from "../../custom-link/custom-link";
 import TabPanel from "../../tab-panel/tab-panel";
 import Slider from "../slider";
 
@@ -65,12 +67,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
     />
   ));
 
-  const goToCategory = () => {
-    router.push({
-      pathname: ROUTE.PRODUCTS,
-      query: { category: arrayTabsSlider[value].category },
-    });
-  };
+  const goToCategory = useGoToCategory(arrayTabsSlider[value].category);
 
   const renderSliders = arrayTabsSlider.map((slider, id) => (
     <Box
@@ -102,19 +99,19 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
       <Box
         sx={{
           width: "100%",
-          '.swiper-pagination': {
-            position: 'relative',
+          ".swiper-pagination": {
+            position: "relative",
             marginTop: 5,
-            '.swiper-pagination-bullet': {
-              width: '12px',
-              height: '12px',              
+            ".swiper-pagination-bullet": {
+              width: "12px",
+              height: "12px",
               borderRadius: 0,
-              '&-active': {
-                background: '#1f1a17',
-                opacity: '0.7'
-              }
-            }
-          }
+              "&-active": {
+                background: "#1f1a17",
+                opacity: "0.7",
+              },
+            },
+          },
         }}
       >
         <Box
@@ -149,8 +146,7 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
           >
             {renderTabs}
           </Tabs>
-          <Button
-            onClick={goToCategory}
+          <Box
             sx={{
               ml: {
                 xs: "auto",
@@ -160,10 +156,27 @@ const SliderPromotionTabs = ({ slider, itemsPerView }) => {
                 xs: "auto",
                 sm: "0",
               },
+              py: 2,
             }}
           >
-            See all {arrayTabsSlider[value].title}
-          </Button>
+            <CustomLink href={goToCategory}>
+              <Typography
+                color="textPrimary"
+                variant="body1"
+                sx={{
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#65748B",
+                  "&:hover": {
+                    color: "#b7181d",
+                  },
+                }}
+              >
+                See all {arrayTabsSlider[value].title}
+              </Typography>
+            </CustomLink>
+          </Box>
         </Box>
         {renderSliders}
       </Box>

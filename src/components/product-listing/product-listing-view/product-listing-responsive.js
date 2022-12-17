@@ -12,6 +12,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch } from "react-redux";
 import { REMOVE_FROM_WISHLIST } from "../../../redux/slice/wishlistSlice";
 import { useRouter } from "next/router";
+import CustomLink from "../../custom-link/custom-link";
+import { useGoToCategory } from "../../../hooks/useGoToCategory";
+import { useGoToProductDetail } from "../../../hooks/useGoToProductDetail";
+import WishlistAction from "../../actions/wishlist-action";
 
 const ProductListingResponsive = (props) => {
   const {
@@ -26,14 +30,12 @@ const ProductListingResponsive = (props) => {
     thumbnail,
     images,
   } = props;
-  const dispatch = useDispatch();
   const router = useRouter();
   const auth = useContext(AuthContext);
-  const link = ROUTE.PRODUCTS_DETAIL + id;
   const [amount, setAmount] = useContext(ProductListingContext);
   const isWishlist = router.pathname === ROUTE.WISHLIST;
-
-  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: props }));
+  const link = useGoToProductDetail(id);
+  const goToCategory = useGoToCategory(category);
 
   const renderWishlist = isWishlist ? (
     <Grid
@@ -45,9 +47,7 @@ const ProductListingResponsive = (props) => {
         flexDirection: "column",
       }}
     >
-      <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
-        <FavoriteIcon />
-      </IconButton>
+      <WishlistAction remove product={props} />
     </Grid>
   ) : null;
 
@@ -127,9 +127,7 @@ const ProductListingResponsive = (props) => {
             px: 2,
           }}
         >
-          <Typography variant="body2" component="h4" fontWeight="600">
-            {category}
-          </Typography>
+          <CustomLink onClick={goToCategory} text={category} />
           <Rating name="rating-list" value={rating} readOnly />
           <Typography variant="body2" component="h4" fontWeight="400">
             ${price} netto

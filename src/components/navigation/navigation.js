@@ -25,6 +25,7 @@ import Divider from "@mui/material/Divider";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import { AuthContext } from "../../contexts/auth-context";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import CartBadge from "../cart/cart-badge/cart-badge";
 
 const listNavigation = [
   {
@@ -42,6 +43,12 @@ const listNavigation = [
   {
     name: "Wishlist",
     link: ROUTE.WISHLIST,
+    icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
+    guard: ["admin", "user"],
+  },
+  {
+    name: "DASHBOARD",
+    link: ROUTE.DASHBOARD,
     icon: <AutoAwesomeMotionIcon sx={{ color: "primary.main" }} />,
     guard: ["admin", "user"],
   },
@@ -185,15 +192,13 @@ const Navigation = ({ open, setActiveMenu }) => {
           {auth.isAuthenticated ? (
             <>
               <Divider sx={{ mb: 2 }} />
-              <ListItemButton>
+              <ListItemButton href={ROUTE.DASHBOARD + ROUTE.CART}>
                 <ListItemIcon>
-                  <Badge badgeContent={4} color="primary">
-                    <ShoppingBasketIcon fontSize="large" />
-                  </Badge>
+                  <CartBadge />
                 </ListItemIcon>
                 <ListItemText primary="Shopping cart" />
               </ListItemButton>
-              <Divider sx={{ my: 2 }} />{" "}
+              <Divider sx={{ my: 2 }} />
             </>
           ) : null}
 

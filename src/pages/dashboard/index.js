@@ -119,7 +119,7 @@ export async function getStaticProps() {
   return {
     props: {
       protected: true,
-      userTypes: ["user"],
+      userTypes: ["user", "admin"],
     },
   };
 }

@@ -9,6 +9,8 @@ import { ProductListingContext } from "./product-listing-view";
 import { useDispatch } from "react-redux";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { REMOVE_FROM_WISHLIST } from "../../../redux/slice/wishlistSlice";
+import { useGoToProductDetail } from "../../../hooks/useGoToProductDetail";
+import WishlistAction from "../../actions/wishlist-action";
 
 const ProductListingNormal = (props) => {
   const router = useRouter();
@@ -26,12 +28,9 @@ const ProductListingNormal = (props) => {
     thumbnail,
     images,
   } = props;
-  const link = ROUTE.PRODUCTS_DETAIL + id;
+  const link = useGoToProductDetail(id);
   const [amount, setAmount] = useContext(ProductListingContext);
   ``;
-  const goToPage = () => {
-    router.push({ pathname: link });
-  };
 
   const renderWishlist =
     router.pathname === ROUTE.WISHLIST ? (
@@ -44,14 +43,9 @@ const ProductListingNormal = (props) => {
           flexDirection: "column",
         }}
       >
-        <IconButton type="button" aria-label="remove from wishlist" onClick={handleRemoveWishlist}>
-          <FavoriteIcon />
-        </IconButton>
+        <WishlistAction remove product={props} />
       </Grid>
-    ) : null;
-
-  const dispatch = useDispatch();
-  const handleRemoveWishlist = (e) => dispatch(REMOVE_FROM_WISHLIST({ product: props }));
+    ) : null;  
 
   const renderComponentAddToCart = auth.isAuthenticated ? (
     <Grid
