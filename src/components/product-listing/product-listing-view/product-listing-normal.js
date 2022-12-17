@@ -80,7 +80,7 @@ const ProductListingNormal = (props) => {
         justifyContent: "center",
       }}
     >
-      <Button variant="outlined" onClick={goToPage}>
+      <Button href={link} variant="outlined">
         Show product
       </Button>
     </Grid>
