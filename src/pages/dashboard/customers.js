@@ -20,7 +20,7 @@ const Page = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <CustomerListToolbar title={"Customer"} search />
         <Box sx={{ mt: 3 }}>
           <CustomerListResults customers={customers} />
         </Box>

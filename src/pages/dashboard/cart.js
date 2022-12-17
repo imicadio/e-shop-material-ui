@@ -6,11 +6,12 @@ import CartSidebar from "../../components/cart/cart-sidebar";
 import { TableComponent } from "../../components/table/table-component";
 import { selectCartItems } from "../../redux/slice/cartSlice";
 import { useSelector } from "react-redux";
+import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
 
 const Page = () => {
   const cartItems = useSelector(selectCartItems);
 
-  const tableHeader = ['id', 'brand', 'category', 'price', 'quantity']
+  const tableHeader = ["id", "brand", "category", "price", "quantity"];
 
   return (
     <>
@@ -25,9 +26,7 @@ const Page = () => {
         }}
       >
         <Container maxWidth="lg">
-          <Typography sx={{ mb: 3 }} variant="h4">
-            Cart
-          </Typography>
+          <CustomerListToolbar title={"Cart"} />
           <SidebarLayout isMobile sidebar={<CartSidebar />}>
             <TableComponent cartItems={cartItems} tableHeader={tableHeader} />
           </SidebarLayout>

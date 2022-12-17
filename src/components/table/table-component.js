@@ -66,7 +66,9 @@ export const TableComponent = ({ cartItems, tableHeader }) => {
   const tableHead = tableHeader.map((item, index) => <TableCell key={index}>{item}</TableCell>);
 
   return (
-    <Card>
+    <Card sx={{
+      mt: 3
+    }}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
