@@ -41,8 +41,6 @@ const Page = () => {
 
         authContext.signIn(user, email, password);
 
-        
-
         helpers.setSubmitting(false);
         setEmailSent(true);
         // Redirect to home page
@@ -240,7 +238,12 @@ const Page = () => {
                       <Tab label="Register" value="register" />
                     </Tabs>
                     {tab === "email" && (
-                      <div>
+                      <Box
+                        component="form"
+                        autoComplete="off"
+                        noValidate
+                        onSubmit={() => formik.handleSubmit()}
+                      >
                         <TextField
                           error={Boolean(formik.touched.email && formik.errors.email)}
                           fullWidth
@@ -275,19 +278,24 @@ const Page = () => {
                           </Typography>
                         )}
                         <Button
+                          type="submit"
                           fullWidth
                           size="large"
                           sx={{ mt: 3 }}
-                          onClick={() => formik.handleSubmit()}
                           variant="contained"
                           disabled={!(formik.isValid && formik.dirty)}
                         >
                           Login
                         </Button>
-                      </div>
+                      </Box>
                     )}
                     {tab === "register" && (
-                      <div>
+                      <Box
+                        component="form"
+                        autoComplete="off"
+                        noValidate
+                        onSubmit={() => formikRegister.handleSubmit()}
+                      >
                         {/* <Typography
                           sx={{ mb: 1 }}
                           variant="h6"
@@ -349,16 +357,16 @@ const Page = () => {
                           variant="outlined"
                         />
                         <Button
+                          type="submit"
                           fullWidth
                           size="large"
                           sx={{ mt: 3 }}
-                          onClick={() => formikRegister.handleSubmit()}
                           variant="contained"
                           disabled={!(formikRegister.isValid && formikRegister.dirty)}
                         >
                           Register
                         </Button>
-                      </div>
+                      </Box>
                     )}
                   </div>
                 )}
