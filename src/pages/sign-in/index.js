@@ -38,12 +38,15 @@ const Page = () => {
         const user = {};
 
         // Update Auth Context state
+
         authContext.signIn(user, email, password);
+
+        
 
         helpers.setSubmitting(false);
         setEmailSent(true);
         // Redirect to home page
-        Router.push("/").catch(console.error);
+        // Router.push("/").catch(console.error);
       } catch (err) {
         console.error(err);
         helpers.setFieldError("submit", err.message || "Something went wrong");

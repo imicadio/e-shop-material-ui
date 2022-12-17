@@ -24,7 +24,7 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container>
+        <Container maxWidth="lg">
           <Typography sx={{ mb: 3 }} variant="h4">
             Cart
           </Typography>

@@ -192,13 +192,13 @@ const Navigation = ({ open, setActiveMenu }) => {
           {auth.isAuthenticated ? (
             <>
               <Divider sx={{ mb: 2 }} />
-              <ListItemButton>
+              <ListItemButton href={ROUTE.DASHBOARD + ROUTE.CART}>
                 <ListItemIcon>
                   <CartBadge />
                 </ListItemIcon>
                 <ListItemText primary="Shopping cart" />
               </ListItemButton>
-              <Divider sx={{ my: 2 }} />{" "}
+              <Divider sx={{ my: 2 }} />
             </>
           ) : null}
 
