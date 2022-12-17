@@ -27,18 +27,17 @@ const CartSummary = () => {
   const renderTotalAmount =
     discount > 0 ? (
       <Typography variant="body1" component="p" fontWeight={600}>
-        Total amount:
+        Total amount: ${discountPrice(totalAmount, discount)}
         <Typography
           variant="body2"
           component="span"
           sx={{
             textDecoration: "line-through",
-            mr: 1,
+            ml: 1,
           }}
         >
           ${totalAmount}
         </Typography>
-        ${discountPrice(totalAmount, discount)}
       </Typography>
     ) : (
       <Typography variant="body1" component="p" fontWeight={600}>

@@ -3,9 +3,13 @@ import { Box } from "@mui/system";
 import React from "react";
 import NextLink from "next/link";
 import { ROUTE } from "../../shared/routing";
+import { useGoToCategory } from "../../hooks/useGoToCategory";
+import CustomLink from "../custom-link/custom-link";
+import { useGoToProductDetail } from "../../hooks/useGoToProductDetail";
 
 function CartSummaryCell({ item }) {
-  const link = ROUTE.PRODUCTS_DETAIL + new String(item.id - 1);
+  const link = useGoToProductDetail(item.id);
+  const goToCategory = useGoToCategory(item.category);
 
   return (
     <>
@@ -39,9 +43,7 @@ function CartSummaryCell({ item }) {
         </NextLink>
       </TableCell>
       <TableCell>
-        <Typography color="textPrimary" variant="body1">
-          {item.category}
-        </Typography>
+        <CustomLink href={goToCategory} text={item.category} /> 
       </TableCell>
       <TableCell>
         <Typography
