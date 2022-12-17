@@ -109,7 +109,23 @@ Project has 3 users:
 | ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/slider_login.png?raw=true)  |
 | Slider if user Login  |
 
+| Cart |
+| -------------- |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/cart.png?raw=true)  |
+| Cart |
+|                |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/modal_confirm.png?raw=true)  |
+| Confirm dialog |
 
+| Product Listing |
+| -------------- |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/products.png?raw=true)  |
+| Normal List |
+|                |
+| ![alt text](https://github.com/imicadio/e-shop-material-ui/blob/develop/src/assets/git/products_login.png?raw=true)  |
+| Big List |
+
+And more...
 
 ## Contact
 
