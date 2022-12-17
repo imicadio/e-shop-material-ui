@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductListingHeader from "../components/product-listing/product-listing-header";
 import ProductListing from "../components/product-listing/product-listing";
 import { floorDown } from "../helpers/numbers";
-import { Container, Pagination } from "@mui/material";
+import { Box, Container, Pagination, Typography } from "@mui/material";
 import { selectWishlistItems } from "../redux/slice/wishlistSlice";
 
 const Page = () => {
@@ -54,44 +54,77 @@ const Page = () => {
       : setTotalPages(1);
   }, [filteredProducts]);
 
+  const renderView =
+    filteredProducts.length > 0 ? (
+      <>
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              lg: "block",
+            },
+          }}
+        >
+          <ProductListingHeader
+            setListView={setListView}
+            handleSearch={handleSearch}
+            handleItemsPerPage={handleSetItemsPerPage}
+            handleCurrentPage={handleCurrentPage}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            search={search}
+            onSidebarOpen={() => setSidebarOpen(true)}
+            handleClearSearch={handleClearSearch}
+          />
+        </Box>
+        <ProductListing
+          products={filteredProducts}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          viewList={viewList}
+        />
+        <Pagination
+          onChange={handlePagination}
+          count={totalPages ? totalPages : 0}
+          color="primary"
+          sx={{
+            mt: 3,
+            marginLeft: "auto",
+            ul: {
+              "& .MuiPaginationItem-root": {
+                "&:hover": {
+                  backgroundColor: "secondary.main",
+                  color: "white",
+                },
+              },
+            },
+          }}
+        />
+      </>
+    ) : (
+      <Box>
+        <Typography
+          variant="h3"
+          component="p"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            color: "lightgray",
+            py: 5
+          }}
+        >
+          Your wishlist is empty
+        </Typography>
+      </Box>
+    );
+
   return (
     <Container maxWidth="xl">
       <Breadcrumb />
-      <ProductListingHeader
-        setListView={setListView}
-        handleSearch={handleSearch}
-        handleItemsPerPage={handleSetItemsPerPage}
-        handleCurrentPage={handleCurrentPage}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        search={search}
-        onSidebarOpen={() => setSidebarOpen(true)}
-        handleClearSearch={handleClearSearch}
-      />
-      <ProductListing
-        products={filteredProducts}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        viewList={viewList}
-      />
-      <Pagination
-        onChange={handlePagination}
-        count={totalPages ? totalPages : 0}
-        color="primary"
-        sx={{
-          mt: 3,
-          marginLeft: "auto",
-          ul: {
-            "& .MuiPaginationItem-root": {
-              "&:hover": {
-                backgroundColor: "secondary.main",
-                color: "white",
-              },
-            },
-          },
-        }}
-      />
+      {renderView}
     </Container>
   );
 };

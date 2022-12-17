@@ -29,6 +29,7 @@ import {
   selectCartTotalQuantity,
 } from "../../../redux/slice/cartSlice";
 import CartBadge from "../../cart/cart-badge/cart-badge";
+import { useGoToProductDetail } from "../../../hooks/useGoToProductDetail";
 
 const HeaderContent = ({ open, setActiveMenu }) => {
   const modalBackground = useRef(null);
@@ -121,8 +122,8 @@ const HeaderContent = ({ open, setActiveMenu }) => {
         }}
       >
         {filteredData.map((product) => (
-          <Box key={product.id}>
-            <NextLink href={ROUTE.PRODUCTS_DETAIL + product.id} passHref>
+          <Box key={product.id} onClick={handleClear}>
+            <NextLink href={ROUTE.PRODUCTS_DETAIL + (product.id - 1).toString()} passHref>
               <a>
                 <Grid
                   container
