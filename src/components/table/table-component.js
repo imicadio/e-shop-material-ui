@@ -18,8 +18,8 @@ import {
 import { getInitials } from "../../utils/get-initials";
 import CartSummaryCell from "./table-summary-cell";
 
-export const TableComponent = ({ cartItems, tableHeader }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+export const TableComponent = ({ cartItems, tableHeader, selectedCustomerIds, setSelectedCustomerIds }) => {
+  
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 

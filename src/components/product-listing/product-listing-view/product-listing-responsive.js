@@ -127,7 +127,7 @@ const ProductListingResponsive = (props) => {
             px: 2,
           }}
         >
-          <CustomLink onClick={goToCategory} text={category} />
+          <CustomLink href={goToCategory} text={category} />
           <Rating name="rating-list" value={rating} readOnly />
           <Typography variant="body2" component="h4" fontWeight="400">
             ${price} netto

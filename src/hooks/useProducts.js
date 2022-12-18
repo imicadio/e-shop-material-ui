@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ROUTE } from "../shared/routing";
 
 export const useProducts = (count) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,7 @@ export const useProducts = (count) => {
 
       try {
         const response = await fetch(
-          "https://react-shop-dd1d1-default-rtdb.europe-west1.firebasedatabase.app/products.json"
+          process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS +'json'
         );
 
         if (response.status < 200 || response.status >= 400) {

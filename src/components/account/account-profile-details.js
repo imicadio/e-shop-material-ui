@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -7,63 +7,60 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField
-} from '@mui/material';
+  TextField,
+} from "@mui/material";
+import { useUser } from "../../hooks/useUser";
+import { userObject } from "../../helpers/userObject";
 
 const states = [
   {
-    value: 'alabama',
-    label: 'Alabama'
+    value: "alabama",
+    label: "Alabama",
   },
   {
-    value: 'new-york',
-    label: 'New York'
+    value: "new-york",
+    label: "New York",
   },
   {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
+    value: "san-francisco",
+    label: "San Francisco",
+  },
 ];
 
-export const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
+const AccountProfileDetails = (props) => {
+  const [isLoading, user] = useUser();
+
+  const [values, setValues] = useState(userObject);
 
   const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    
+
+    console.log(values);
+  };
+
+  useEffect(() => {
+    setValues({ ...user });
+  }, [user]);
+
+  if (!isLoading) return <h2>Loading</h2>;
+
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      {...props}
-    >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <Divider />
+    <Card>
+      <CardHeader subheader="The information can be edited" title="Profile" />
+      <Divider />
+      <Box component="form" noValidate onSubmit={handleSubmit}>
         <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+          <Grid container spacing={3}>
+            <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 helperText="Please specify the first name"
@@ -71,45 +68,33 @@ export const AccountProfileDetails = (props) => {
                 name="firstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.firstName || ""}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Last name"
                 name="lastName"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={values.lastName || ""}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Email Address"
                 name="email"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={values.email || ""}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            {/* <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Phone Number"
@@ -120,11 +105,7 @@ export const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Country"
@@ -135,11 +116,7 @@ export const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Select State"
@@ -152,33 +129,29 @@ export const AccountProfileDetails = (props) => {
                 variant="outlined"
               >
                 {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
+                  <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </TextField>
-            </Grid>
+            </Grid> */}
           </Grid>
         </CardContent>
         <Divider />
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-          >
+          <Button type="submit" color="primary" variant="contained">
             Save details
           </Button>
         </Box>
-      </Card>
-    </form>
+      </Box>
+    </Card>
   );
 };
+
+export default AccountProfileDetails;
