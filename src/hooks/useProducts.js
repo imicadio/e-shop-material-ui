@@ -13,7 +13,7 @@ export const useProducts = (count) => {
 
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS +'json'
+          process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL + ROUTE.PRODUCTS +'.json'
         );
 
         if (response.status < 200 || response.status >= 400) {
